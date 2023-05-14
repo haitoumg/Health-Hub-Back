@@ -1,4 +1,4 @@
-package com.healthHub.classes;
+package com.healthHub.healthHub.classes;
 
 public class Mail {
 	private String from;

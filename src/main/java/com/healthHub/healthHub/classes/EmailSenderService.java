@@ -1,4 +1,4 @@
-package com.healthHub.classes;
+package com.healthHub.healthHub.classes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
