@@ -12,7 +12,7 @@ import java.io.File;
 
 @Service
 public class EmailSenderService {
-	@Autowired
+	private final JavaMailSender mailSender;
      @Autowired
     public EmailSenderService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
