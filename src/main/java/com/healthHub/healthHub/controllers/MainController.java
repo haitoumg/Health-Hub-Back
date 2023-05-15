@@ -12,13 +12,18 @@ import com.healthHub.healthHub.classes.Mail;
 @CrossOrigin("http://localhost:3000")
 public class MainController {
     @Autowired
-	private EmailSenderService senderService;
+    public MainController(EmailSenderService emailSenderService) {
+        this.emailSenderService = emailSenderService;
+    }
     
     @GetMapping("/sendMail")
     public String triggerMail(@RequestBody Mail m) {
-    	senderService.sendSimpleEmail(m.getFrom(),
-				m.getSubject(),
-				m.getBody());
+    	 String to = m.getTo();
+         String subject = m.getSubject();
+         String text = m.getBody();
+
+         // Send the email
+        emailSenderService.sendSimpleEmail(to, subject, text);
 		return "Sending";
 
 	}
