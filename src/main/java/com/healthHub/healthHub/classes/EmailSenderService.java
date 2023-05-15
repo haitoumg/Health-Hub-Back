@@ -13,7 +13,10 @@ import java.io.File;
 @Service
 public class EmailSenderService {
 	@Autowired
-	private JavaMailSender mailSender;
+     @Autowired
+    public EmailSenderService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
 	public void sendSimpleEmail(String toEmail, String subject, String body) {
 		SimpleMailMessage message = new SimpleMailMessage();
