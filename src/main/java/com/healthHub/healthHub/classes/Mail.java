@@ -1,14 +1,14 @@
 package com.healthHub.healthHub.classes;
 
 public class Mail {
-	private String from;
+	private String to;
 	private String subject;
 	private String body;
-	public String getFrom() {
-		return from;
+	public String getTo() {
+		return to;
 	}
-	public void setFrom(String from) {
-		this.from = from;
+	public void setTo(String to) {
+		this.to = to;
 	}
 	public String getSubject() {
 		return subject;
