@@ -11,6 +11,7 @@ import com.healthHub.healthHub.classes.Mail;
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class MainController {
+	private final EmailSenderService emailSenderService;
     @Autowired
     public MainController(EmailSenderService emailSenderService) {
         this.emailSenderService = emailSenderService;
