@@ -2,31 +2,55 @@ package com.healthHub.healthHub.model;
 
 import java.util.Date;
 
+import jakarta.persistence.FetchType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Personne {
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Personne {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int personneId;
 	
+	@Column(nullable = false, length = 50)
 	private String nom;
+	
+	@Column(nullable = false, length = 50)
 	private String prenom;
 
-    @Column(name = "dateNaissance")
+	@Column(nullable = false)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateNaissance;	
     
+    @Column(nullable = false, length = 50)
     private String telephone;
+    
+    @Column(nullable = false, length = 50)
     private String email;
+    
+    @Column(nullable = false, length = 50)
     private String motDePasse;
     
-	@Column(nullable = false, columnDefinition = "ENUM('Docteur', 'Employe')")
+	@Column(nullable = false, columnDefinition = "ENUM('Docteur', 'Employe','Admin')")
 	private String role;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "centreId")
+    private Centre centre;
+
 
 	public int getPersonneId() {
 		return personneId;
@@ -92,12 +116,21 @@ public class Personne {
 		this.role = role;
 	}
 	
+	public Centre getCentre() {
+		return centre;
+	}
+
+	public void setCentre(Centre centre) {
+		this.centre = centre;
+	}
+	
 	public Personne() {
 		super();
 	}
 
 	public Personne(int personneId, String nom, String prenom, Date dateNaissance, String telephone, String email,
-			String motDePasse, String role) {
+			String motDePasse, String role, Centre centre) {
+		super();
 		this.personneId = personneId;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -106,6 +139,7 @@ public class Personne {
 		this.email = email;
 		this.motDePasse = motDePasse;
 		this.role = role;
+		this.centre = centre;
 	}
-
+	
 }

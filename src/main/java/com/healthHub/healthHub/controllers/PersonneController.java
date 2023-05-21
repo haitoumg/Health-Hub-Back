@@ -48,11 +48,18 @@ public class PersonneController {
 		}
 	}
 	@PutMapping("/personne/{id}")
-	public ResponseEntity<Personne> updateCentre(@PathVariable("id") Long id, @RequestBody Personne updatedPersonne) {
+	public ResponseEntity<Personne> updatePersonne(@PathVariable("id") Long id, @RequestBody Personne updatedPersonne) {
 	    Optional<Personne> optionalPersonne = personneRepository.findById(id);
 	    if (optionalPersonne.isPresent()) {
 	    	Personne existingPersonne = optionalPersonne.get();
 	        existingPersonne.setNom(updatedPersonne.getNom()); 
+	        existingPersonne.setPrenom(updatedPersonne.getPrenom()); 
+	        existingPersonne.setDateNaissance(updatedPersonne.getDateNaissance());
+	        existingPersonne.setTelephone(updatedPersonne.getTelephone());
+	        existingPersonne.setEmail(updatedPersonne.getEmail());
+	        existingPersonne.setMotDePasse(updatedPersonne.getMotDePasse());
+	        existingPersonne.setRole(updatedPersonne.getRole());
+	        existingPersonne.setCentre(updatedPersonne.getCentre());
 	        Personne savedPersonne = personneRepository.save(existingPersonne);
 	        return new ResponseEntity<>(savedPersonne, HttpStatus.OK);
 	    } else {
