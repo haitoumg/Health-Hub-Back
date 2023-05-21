@@ -35,7 +35,7 @@ public class CentreController {
 		return new ResponseEntity<>(createdCentre, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/centre")
+	@GetMapping("/centres")
 	public ResponseEntity<List<Centre>> getAllCentres() {
 	    List<Centre> centres = centreRepository.findAll();
 	    return new ResponseEntity<>(centres, HttpStatus.OK);
@@ -55,7 +55,9 @@ public class CentreController {
 	    Optional<Centre> optionalCentre = centreRepository.findById(id);
 	    if (optionalCentre.isPresent()) {
 	    	Centre existingCentre = optionalCentre.get();
-	        existingCentre.setCentreName(updatedCentre.getCentreName()); 
+	        existingCentre.setCentreName(updatedCentre.getCentreName());
+	        existingCentre.setVille(updatedCentre.getVille());
+	        existingCentre.setAdresse(updatedCentre.getAdresse());
 	        Centre savedCentre = centreRepository.save(existingCentre);
 	        return new ResponseEntity<>(savedCentre, HttpStatus.OK);
 	    } else {
