@@ -1,4 +1,4 @@
-package com.healthHub.healthHub.classes;
+package com.healthHub.healthHub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -6,15 +6,13 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-
 import java.io.File;
 
 @Service
-public class EmailSenderService {
+public class MailSenderService {
 	private final JavaMailSender mailSender;
      @Autowired
-    public EmailSenderService(JavaMailSender mailSender) {
+    public MailSenderService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 

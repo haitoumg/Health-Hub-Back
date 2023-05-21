@@ -3,17 +3,17 @@ package com.healthHub.healthHub.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.healthHub.healthHub.classes.EmailSenderService;
 import com.healthHub.healthHub.classes.Mail;
+import com.healthHub.healthHub.service.MailSenderService;
 
 
 /* Created by Arjun Gautam */
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class MainController {
-	private final EmailSenderService emailSenderService;
+public class MailController {
+	private final MailSenderService emailSenderService;
     @Autowired
-    public MainController(EmailSenderService emailSenderService) {
+    public MailController(MailSenderService emailSenderService) {
         this.emailSenderService = emailSenderService;
     }
     
