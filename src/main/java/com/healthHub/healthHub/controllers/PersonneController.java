@@ -6,18 +6,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthHub.healthHub.model.Personne;
 import com.healthHub.healthHub.repository.PersonneRepository;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class PersonneController {
 
 	private final PersonneRepository personneRepository;
@@ -33,7 +36,7 @@ public class PersonneController {
 		return new ResponseEntity<>(createdPersonne, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/personne")
+	@GetMapping("/personnes")
 	public ResponseEntity<List<Personne>> getAllPersonnes() {
 	    List<Personne> personnes = personneRepository.findAll();
 	    return new ResponseEntity<>(personnes, HttpStatus.OK);
@@ -47,6 +50,7 @@ public class PersonneController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 	@PutMapping("/personne/{id}")
 	public ResponseEntity<Personne> updatePersonne(@PathVariable("id") Long id, @RequestBody Personne updatedPersonne) {
 	    Optional<Personne> optionalPersonne = personneRepository.findById(id);
@@ -77,4 +81,5 @@ public class PersonneController {
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	    }
 	}
+	
 }

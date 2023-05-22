@@ -7,7 +7,6 @@ import jakarta.persistence.FetchType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

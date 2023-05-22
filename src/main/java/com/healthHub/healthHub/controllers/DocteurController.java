@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,20 +15,40 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.healthHub.healthHub.classes.DocteurRequer;
+import com.healthHub.healthHub.model.Centre;
 import com.healthHub.healthHub.model.Docteur;
+import com.healthHub.healthHub.repository.CentreRepository;
 import com.healthHub.healthHub.repository.DocteurRepository;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class DocteurController {
 	private final DocteurRepository DocteurRepository;
+	private final CentreRepository CenterRepository;
 
 	@Autowired
-	public DocteurController(DocteurRepository DocteurRepository) {
+	public DocteurController(DocteurRepository DocteurRepository,CentreRepository CenterRepository) {
+		this.CenterRepository = CenterRepository;
 		this.DocteurRepository = DocteurRepository;
 	}
 
+
 	@PostMapping("/docteur")
-	public ResponseEntity<Docteur> createDocteur(@RequestBody Docteur Docteur) {
+	public ResponseEntity<Docteur> createDocteur(@RequestBody DocteurRequer DocteurRequ) {
+		Docteur Docteur=new Docteur(DocteurRequ.getNumDocteur(), DocteurRequ.getSpecialité());
+		Docteur.setEmail(DocteurRequ.getEmail());
+		Docteur.setDateNaissance(DocteurRequ.getDateNaissance());
+		Docteur.setMotDePasse(DocteurRequ.getMotDePasse());
+		Docteur.setNom(DocteurRequ.getNom());
+		Docteur.setPrenom(DocteurRequ.getPrenom());
+		Docteur.setRole("Docteur");
+		Docteur.setTelephone(DocteurRequ.getTelephone());
+		long id=DocteurRequ.getCentre();
+		Optional<Centre> optionalCentre = CenterRepository.findById(id);
+	    if (optionalCentre.isPresent()) {
+	    	Docteur.setCentre(optionalCentre.get());
+	    }
 		Docteur createdDocteur = DocteurRepository.save(Docteur);
 		return new ResponseEntity<>(createdDocteur, HttpStatus.CREATED);
 	}
@@ -48,7 +69,7 @@ public class DocteurController {
 		}
 	}
 	@PutMapping("/docteur/{id}")
-	public ResponseEntity<Docteur> updateDocteur(@PathVariable("id") Long id, @RequestBody Docteur updatedDocteur) {
+	public ResponseEntity<Docteur> updateDocteur(@PathVariable("id") Long id, @RequestBody DocteurRequer updatedDocteur) {
 	    Optional<Docteur> optionalDocteur = DocteurRepository.findById(id);
 	    if (optionalDocteur.isPresent()) {
 	    	Docteur existingDocteur = optionalDocteur.get();
@@ -59,8 +80,11 @@ public class DocteurController {
 	        existingDocteur.setTelephone(updatedDocteur.getTelephone());
 	        existingDocteur.setEmail(updatedDocteur.getEmail());
 	        existingDocteur.setMotDePasse(updatedDocteur.getMotDePasse());
-	        existingDocteur.setRole(updatedDocteur.getRole());
-	        existingDocteur.setCentre(updatedDocteur.getCentre());
+	        long idC=updatedDocteur.getCentre();
+			Optional<Centre> optionalCentre = CenterRepository.findById(idC);
+		    if (optionalCentre.isPresent()) {
+		    	existingDocteur.setCentre(optionalCentre.get());
+		    }
 	        Docteur savedDocteur = DocteurRepository.save(existingDocteur);
 	        return new ResponseEntity<>(savedDocteur, HttpStatus.OK);
 	    } else {

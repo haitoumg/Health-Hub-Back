@@ -26,7 +26,14 @@ public class MailController {
          // Send the email
         emailSenderService.sendSimpleEmail(to, subject, text);
 		return "Sending";
-
+	}
+    @GetMapping("/forgetpassword")
+    public String forgetpassword(@RequestParam String to) {
+         String subject = "Do you Forget Your password ?";
+         String text = "you can changing just following this link www.google.com ";
+         // Send the email
+        emailSenderService.sendSimpleEmail(to, subject, text);
+		return "Sending";
 	}
 
 
