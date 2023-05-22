@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -45,7 +46,7 @@ public class Docteur extends Personne{
 		this.specialité = specialité;
 	}
 	
-	@OneToMany(mappedBy = "docteur")
+	@OneToMany(mappedBy = "docteur", cascade = CascadeType.ALL)
 	@JsonIgnore
     private List<Calendrier> calendriers;
 	

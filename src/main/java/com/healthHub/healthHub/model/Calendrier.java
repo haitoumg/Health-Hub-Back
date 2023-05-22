@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -125,7 +126,7 @@ public class Calendrier {
     @JoinColumn(name = "personneId")
     private Docteur docteur;
 	
-	@OneToMany(mappedBy = "calendrier")
+	@OneToMany(mappedBy = "calendrier", cascade = CascadeType.ALL)
 	@JsonIgnore
     private List<RendezVous> rendezVous;
 }

@@ -11,4 +11,5 @@ import com.healthHub.healthHub.model.Personne;
 @Repository
 public interface PersonneRepository extends JpaRepository <Personne,Long>{
 	Optional<Personne> findByemailAndMotDePasse(String email,String motDePasse);
+	Optional<Personne> findByemail(String email);
 }

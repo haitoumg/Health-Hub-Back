@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -33,7 +34,7 @@ public class Employe extends Personne{
 		this.numEmploye = numEmploye;
 	}
 	
-	@OneToMany(mappedBy = "employe")
+	@OneToMany(mappedBy = "employe", cascade = CascadeType.ALL)
 	@JsonIgnore
     private List<RendezVous> rendezVous;
 	
