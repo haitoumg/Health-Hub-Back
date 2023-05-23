@@ -75,14 +75,16 @@ public class PersonneRequer {
 	}
 
 	
-	public long getCentre() {
+
+	
+	public long getIdCentre() {
 		return idCentre;
 	}
 
-	public void setCentre(long idCentre) {
+	public void setIdCentre(long idCentre) {
 		this.idCentre = idCentre;
 	}
-	
+
 	public PersonneRequer() {
 		super();
 	}

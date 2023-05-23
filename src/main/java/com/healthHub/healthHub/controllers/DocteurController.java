@@ -44,7 +44,7 @@ public class DocteurController {
 		Docteur.setPrenom(DocteurRequ.getPrenom());
 		Docteur.setRole("Docteur");
 		Docteur.setTelephone(DocteurRequ.getTelephone());
-		long id=DocteurRequ.getCentre();
+		long id=DocteurRequ.getIdCentre();
 		Optional<Centre> optionalCentre = CenterRepository.findById(id);
 	    if (optionalCentre.isPresent()) {
 	    	Docteur.setCentre(optionalCentre.get());
@@ -80,7 +80,7 @@ public class DocteurController {
 	        existingDocteur.setTelephone(updatedDocteur.getTelephone());
 	        existingDocteur.setEmail(updatedDocteur.getEmail());
 	        existingDocteur.setMotDePasse(updatedDocteur.getMotDePasse());
-	        long idC=updatedDocteur.getCentre();
+	        long idC=updatedDocteur.getIdCentre();
 			Optional<Centre> optionalCentre = CenterRepository.findById(idC);
 		    if (optionalCentre.isPresent()) {
 		    	existingDocteur.setCentre(optionalCentre.get());

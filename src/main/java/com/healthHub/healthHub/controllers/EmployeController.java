@@ -45,7 +45,7 @@ public class EmployeController {
 		Employe.setPrenom(EmployeRequ.getPrenom());
 		Employe.setRole("Employe");
 		Employe.setTelephone(EmployeRequ.getTelephone());
-		long id=EmployeRequ.getCentre();
+		long id=EmployeRequ.getIdCentre();
 		Optional<Centre> optionalCentre = CenterRepository.findById(id);
 	    if (optionalCentre.isPresent()) {
 	    	Employe.setCentre(optionalCentre.get());
@@ -81,7 +81,7 @@ public class EmployeController {
 	        existingEmploye.setTelephone(updatedEmploye.getTelephone());
 	        existingEmploye.setEmail(updatedEmploye.getEmail());
 	        existingEmploye.setMotDePasse(updatedEmploye.getMotDePasse());
-	        long idC=updatedEmploye.getCentre();
+	        long idC=updatedEmploye.getIdCentre();
 			Optional<Centre> optionalCentre = CenterRepository.findById(idC);
 		    if (optionalCentre.isPresent()) {
 		    	existingEmploye.setCentre(optionalCentre.get());
