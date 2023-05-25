@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.healthHub.healthHub.classes.loginRequer;
 import com.healthHub.healthHub.model.Docteur;
 import com.healthHub.healthHub.model.Personne;
 import com.healthHub.healthHub.repository.PersonneRepository;
@@ -28,8 +30,8 @@ public class loginController {
 	}
 
 	@GetMapping("/login")
-	public ResponseEntity<Personne> getPersonneBylogin(@RequestParam String email,@RequestParam String motdepass) {
-		Optional<Personne> personne = personneRepository.findByemailAndMotDePasse(email,motdepass);
+	public ResponseEntity<Personne> getPersonneBylogin(@RequestBody loginRequer login) {
+		Optional<Personne>  personne = personneRepository.findByemailAndMotDePasse(login.getEmail(),login.getMotdepass());
 		if (personne.isPresent()) {
 			return new ResponseEntity<>(personne.get(), HttpStatus.OK);
 		} else {
@@ -37,12 +39,13 @@ public class loginController {
 		}
 	}
 	@PutMapping("/changepassword")
-	public ResponseEntity<Personne> changePassword(@RequestParam String email,@RequestParam String motdepass) {
-		Optional<Personne> personne = personneRepository.findByemail(email);
+	public ResponseEntity<Personne> changePassword(@RequestBody loginRequer login) {
+		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
 		if (personne.isPresent()) {
 			Personne existingPersonne =personne.get();
-			existingPersonne.setMotDePasse(motdepass);
-			return new ResponseEntity<>(personne.get(), HttpStatus.OK);
+			existingPersonne.setMotDePasse(login.getMotdepass());
+			Personne savedPersonne =personneRepository.save(existingPersonne);
+			return new ResponseEntity<>(savedPersonne, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

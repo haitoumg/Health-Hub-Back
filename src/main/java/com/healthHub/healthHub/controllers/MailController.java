@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.healthHub.healthHub.classes.Mail;
+import com.healthHub.healthHub.classes.MailForgetPass;
 import com.healthHub.healthHub.service.MailSenderService;
 
 
@@ -28,11 +29,11 @@ public class MailController {
 		return "Sending";
 	}
     @GetMapping("/forgetpassword")
-    public String forgetpassword(@RequestParam String to) {
+    public String forgetpassword(@RequestBody MailForgetPass m) {
          String subject = "Do you Forget Your password ?";
          String text = "you can changing just following this link www.google.com ";
          // Send the email
-        emailSenderService.sendSimpleEmail(to, subject, text);
+        emailSenderService.sendSimpleEmail(m.getTo(), subject, text);
 		return "Sending";
 	}
 
