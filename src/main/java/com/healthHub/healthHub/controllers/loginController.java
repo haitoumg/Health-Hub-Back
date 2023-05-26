@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.healthHub.healthHub.classes.ErrorResponse;
 import com.healthHub.healthHub.classes.loginRequer;
 import com.healthHub.healthHub.model.Docteur;
 import com.healthHub.healthHub.model.Personne;
@@ -30,12 +31,14 @@ public class loginController {
 	}
 
 	@GetMapping("/login")
-	public ResponseEntity<Personne> getPersonneBylogin(@RequestBody loginRequer login) {
+	public ResponseEntity<?> getPersonneBylogin(@RequestBody loginRequer login) {
 		Optional<Personne>  personne = personneRepository.findByemailAndMotDePasse(login.getEmail(),login.getMotdepass());
 		if (personne.isPresent()) {
 			return new ResponseEntity<>(personne.get(), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			String errorMessage = "Personne not found for email : " + login.getEmail();
+	        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, errorMessage);
+	        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
 	}
 	@PutMapping("/changepassword")
