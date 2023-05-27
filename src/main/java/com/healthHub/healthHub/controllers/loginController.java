@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthHub.healthHub.classes.ErrorResponse;
 import com.healthHub.healthHub.classes.loginRequer;
+import com.healthHub.healthHub.classes.personneLogin;
 import com.healthHub.healthHub.model.Docteur;
 import com.healthHub.healthHub.model.Personne;
 import com.healthHub.healthHub.repository.PersonneRepository;
@@ -33,11 +34,13 @@ public class loginController {
 	@GetMapping("/login")
 	public ResponseEntity<?> getPersonneBylogin(@RequestBody loginRequer login) {
 		Optional<Personne>  personne = personneRepository.findByemailAndMotDePasse(login.getEmail(),login.getMotdepass());
+		
 		if (personne.isPresent()) {
-			return new ResponseEntity<>(personne.get(), HttpStatus.OK);
+			personneLogin p=new personneLogin(personne.get().getNom(),personne.get().getPrenom(),personne.get().getDateNaissance(),personne.get().getTelephone(),personne.get().getEmail(),personne.get().getCentre().getCentreId());
+			return new ResponseEntity<>(p, HttpStatus.OK);
 		} else {
-			String errorMessage = "Personne not found for email : " + login.getEmail();
-	        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, errorMessage);
+			String errorMessage = "Incorrect Email or Password";
+	        ErrorResponse errorResponse = new ErrorResponse(errorMessage);
 	        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
 	}

@@ -1,23 +1,17 @@
 package com.healthHub.healthHub.classes;
 
-import org.springframework.http.HttpStatus;
 
 public class ErrorResponse{
-    private HttpStatus status;
+    
     private String message;
 
-    public ErrorResponse(HttpStatus status, String message) {
-        this.status = status;
+    public ErrorResponse(String message) {
+        
         this.message = message;
     }
 
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status;
-    }
+    
+    
 
     public String getMessage() {
         return message;
