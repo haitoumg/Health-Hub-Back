@@ -2,25 +2,31 @@ package com.healthHub.healthHub.classes;
 
 public class loginRequer {
 	private String email;
-	private String motdepass;
+	private String password;
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getMotdepass() {
-		return motdepass;
+
+	public String getPassword() {
+		return password;
 	}
-	public void setMotdepass(String motdepass) {
-		this.motdepass = motdepass;
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
 	public loginRequer() {
 		super();
 	}
-	public loginRequer(String email, String motdepass) {
+
+	public loginRequer(String email, String password) {
 		super();
 		this.email = email;
-		this.motdepass = motdepass;
+		this.password = password;
 	}
 }

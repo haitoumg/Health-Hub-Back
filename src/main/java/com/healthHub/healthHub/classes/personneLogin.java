@@ -3,60 +3,74 @@ package com.healthHub.healthHub.classes;
 import java.util.Date;
 
 public class personneLogin {
-	private String nom;
-	private String prenom;
-    private Date dateNaissance;
-    private String telephone;
-    private String email;
-    private long idCentre;
-	public String getNom() {
-		return nom;
+	private String lastName;
+	private String firstName;
+	private Date birthDate;
+	private String telephone;
+	private String email;
+	private long idHub;
+
+	public String getlastName() {
+		return lastName;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
+
+	public void setlastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public String getPrenom() {
-		return prenom;
+
+	public String getfirstName() {
+		return firstName;
 	}
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+
+	public void setfirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public Date getDateNaissance() {
-		return dateNaissance;
+
+	public Date getBirthDate() {
+		return birthDate;
 	}
-	public void setDateNaissance(Date dateNaissance) {
-		this.dateNaissance = dateNaissance;
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
+
 	public String getTelephone() {
 		return telephone;
 	}
+
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public long getIdCentre() {
-		return idCentre;
+
+	public long getIdHub() {
+		return idHub;
 	}
-	public void setIdCentre(long idCentre) {
-		this.idCentre = idCentre;
+
+	public void setIdHub(long idHub) {
+		this.idHub = idHub;
 	}
+
 	public personneLogin() {
 		super();
 	}
-	public personneLogin(String nom, String prenom, Date dateNaissance, String telephone, String email, long idCentre) {
+
+	public personneLogin(String lastName, String firstName, Date birthDate, String telephone, String email,
+			long idHub) {
 		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.dateNaissance = dateNaissance;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
 		this.telephone = telephone;
 		this.email = email;
-		this.idCentre = idCentre;
+		this.idHub = idHub;
 	}
-    
 
 }

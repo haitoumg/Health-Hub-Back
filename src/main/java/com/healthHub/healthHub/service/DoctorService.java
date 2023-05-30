@@ -1,5 +1,5 @@
 package com.healthHub.healthHub.service;
 
-public class DocteurService {
+public class DoctorService {
 
 }

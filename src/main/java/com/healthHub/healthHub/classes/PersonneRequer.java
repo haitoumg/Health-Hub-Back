@@ -2,52 +2,44 @@ package com.healthHub.healthHub.classes;
 
 import java.util.Date;
 
-
 public class PersonneRequer {
 
-	private String nom;
-	
+	private String lastName;
 
-	private String prenom;
+	private String firstName;
 
+	private Date birthDate;
 
-    private Date dateNaissance;	
-    
+	private String telephone;
 
-    private String telephone;
-    
+	private String email;
 
-    private String email;
-    
+	private String password;
 
-    private String motDePasse;
-    
+	private long idHub;
 
-	private long idCentre;
-
-
-	public String getNom() {
-		return nom;
+	public String getlastName() {
+		return lastName;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setlastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getPrenom() {
-		return prenom;
+	public String getfirstName() {
+		return firstName;
 	}
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setfirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public Date getDateNaissance() {
-		return dateNaissance;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setDateNaissance(Date dateNaissance) {
-		this.dateNaissance = dateNaissance;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getTelephone() {
@@ -66,39 +58,36 @@ public class PersonneRequer {
 		this.email = email;
 	}
 
-	public String getMotDePasse() {
-		return motDePasse;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	
-
-	
-	public long getIdCentre() {
-		return idCentre;
+	public long getIdHub() {
+		return idHub;
 	}
 
-	public void setIdCentre(long idCentre) {
-		this.idCentre = idCentre;
+	public void setIdHub(long idHub) {
+		this.idHub = idHub;
 	}
 
 	public PersonneRequer() {
 		super();
 	}
 
-	public PersonneRequer(String nom, String prenom, Date dateNaissance, String telephone, String email,
-			String motDePasse,  long idCentre) {
+	public PersonneRequer(String lastName, String firstName, Date birthDate, String telephone, String email,
+			String password, long idHub) {
 		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.dateNaissance = dateNaissance;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
 		this.telephone = telephone;
 		this.email = email;
-		this.motDePasse = motDePasse;
-		this.idCentre = idCentre;
+		this.password = password;
+		this.idHub = idHub;
 	}
-	
+
 }

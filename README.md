@@ -16,9 +16,9 @@ The project utilizes a relational database to store data. Below is an example of
 
 | Field       | Type    | Description                      |
 |-------------|---------|----------------------------------|
-| centre_id   | INT     | Unique identifier for the centre |
-| adresse     | VARCHAR | Address of the centre            |
-| centre_name | VARCHAR | Name of the centre               |
+| centre_id   | INT     | Unique identifier for the center |
+| adresse     | VARCHAR | Address of the center            |
+| centre_name | VARCHAR | Name of the center               |
 | ville       | VARCHAR | Either Tetouan or Casablanca     |
 
 ## Personne
@@ -26,13 +26,47 @@ The project utilizes a relational database to store data. Below is an example of
 | Field         | Type    | Description                        |
 |---------------|---------|----------------------------------  |
 | personneId    | INT     | Unique identifier for the personne |
-| nom           | VARCHAR | Name of the personne               |
-| prenom        | VARCHAR | Prenom of the personne             |
-| email         | VARCHAR | Email of the centre                |
+| nom           | VARCHAR | Last name of the personne          |
+| prenom        | VARCHAR | first name of the personne         |
+| email         | VARCHAR | Email of the personne              |
 | mot_de_passe  | VARCHAR | Password                           |
-| telephone     | VARCHAR | Number of the phone                |
+| telephone     | VARCHAR | Phone number of the personne       |
 | date_naissance| VARCHAR | Birthday of the personne           |
-| role          | VARCHAR | Either a Docteur or Employe        |
+| role          | VARCHAR | Either a Docter or Employe         |
+| centre_id     | INT     | Referance to the center            |
+
+## Docteur
+
+| Field       | Type    | Description                      |
+|-------------|---------|----------------------------------|
+| num_docteur | INT     | Unique identifier for the docter|
+| specialité  | VARCHAR | Speciality of the docter        |
+| personne_id | INT     | Referance to the table personne  |
+
+## Employee
+
+| Field       | Type    | Description                       |
+|-------------|---------|-----------------------------------|
+| num_employe | INT     | Unique identifier for the employee|
+| personne_id | INT     | Referance to the table personne   |
+
+## calendrier
+
+| Field        | Type    | Description                       |
+|--------------|---------|-----------------------------------|
+| calendrier_id| INT     | Unique identifier for the calender|
+| jour_travail | INT     | Referance to the table personne   |
+
+## Rendez-vous
+
+| Field           | Type    | Description                              |
+|-----------------|---------|------------------------------------------|
+| rendez_vous_id  | INT     | Unique identifier for the appointment    |
+| annule          | BIT     | Indicates if the appointment is cancelled|
+| accept          | BIT     | Indicates if the appointment is cancelled|
+| date_rendez_vous| DATETIME| Timing of the appointment                |
+| calendrier_id   | INT     | referance to the table calender          |
+| personne_id     | INT     | referance to the table personne          |
 
 ## Usage
 
@@ -69,30 +103,33 @@ http://localhost:9090/centre/{id} (GET)
 
 ### Showing all centers
 
-http://localhost:9090/centre (GET)
+http://localhost:9090/centres (GET)
 
 ### Deleting a center 
 
 http://localhost:9090/centre/{id} (DELETE)
 
 
-## Personne
+## Docteur
 
-### Inserting a personne
+### Inserting a docteur
 
-http://localhost:9090/personne (POST)
+http://localhost:9090/docteur (POST)
 
 {
-  "nom": "Nom",
-  "prenom": "Prenom",
-  "dateNaissance": "01-01-1999",
-  "telephone": "+212 000000000",
-  "email": "email@gmail.com",
-  "motDePasse": "****",
-  "role" : "Docteur"  
+    "nom":"nom",
+    "prenom":"prenom",
+    "dateNaissance": "1990-01-04",
+    "telephone":"+212 6 00000",
+    "email":"email@gamil.com",
+    "motDePasse":"*******",
+    "role":"Docteur",
+    "centre":1,
+    "specialité":"generaliste",
+    "numDocteur":1
 }
 
-### Updating a personne
+### Updating a docteur
 
 http://localhost:9090/centre/{id} (PUT)
 
@@ -106,17 +143,62 @@ http://localhost:9090/centre/{id} (PUT)
   "role" : "Docteur"  
 }
 
-### Showing a personne 
+### Showing a docteur 
 
-http://localhost:9090/personne/{id} (GET)
+http://localhost:9090/docteur/{id} (GET)
 
-### Showing all personnes
+### Showing all docteur
 
-http://localhost:9090/centre (GET)
+http://localhost:9090/docteurs (GET)
 
-### Deleting a person
+### Deleting a docteur
 
-http://localhost:9090/personne/{id} (DELETE)
+http://localhost:9090/docteur/{id} (DELETE)
+
+## Employee
+
+### Inserting a employee
+
+http://localhost:9090/employee (POST)
+
+{
+    "nom":"nom",
+    "prenom":"prenom",
+    "dateNaissance": "1990-01-04",
+    "telephone":"+212 6 00000",
+    "email":"email@gamil.com",
+    "motDePasse":"*******",
+    "role":"Docteur",
+    "centre":1,
+    "specialité":"generaliste",
+    "numDocteur":1
+}
+
+### Updating a employee
+
+http://localhost:9090/centre/{id} (PUT)
+
+{
+  "nom": "Updated Nom",
+  "prenom": "Updated Prenom",
+  "dateNaissance": "01-01-1999",
+  "telephone": "+212 000000000",
+  "email": "email@gmail.com",
+  "motDePasse": "****",
+  "role" : "Docteur"  
+}
+
+### Showing a employee 
+
+http://localhost:9090/employee/{id} (GET)
+
+### Showing all employee
+
+http://localhost:9090/employes (GET)
+
+### Deleting a employee
+
+http://localhost:9090/employe/{id} (DELETE)
 
 
 ### Others API *******
@@ -130,4 +212,6 @@ http://localhost:9090/sendMail (GET)
     "subject":"Test",
     "body":"Test"
 }
+
+## Forgetting password
 

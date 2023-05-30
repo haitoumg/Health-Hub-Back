@@ -17,39 +17,38 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Personne {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int personneId;
-	
+
 	@Column(nullable = false, length = 50)
-	private String nom;
-	
+	private String lastName;
+
 	@Column(nullable = false, length = 50)
-	private String prenom;
+	private String firstName;
 
 	@Column(nullable = false)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date dateNaissance;	
-    
-    @Column(nullable = false, length = 50)
-    private String telephone;
-    
-    @Column(nullable = false, length = 50)
-    private String email;
-    
-    @Column(nullable = false, length = 50)
-    private String motDePasse;
-    
-	@Column(nullable = false, columnDefinition = "ENUM('Docteur', 'Employe','Admin')")
-	private String role;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "centreId")
-    private Centre centre;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date birthDate;
 
+	@Column(nullable = false, length = 50)
+	private String telephone;
+
+	@Column(nullable = false, length = 50)
+	private String email;
+
+	@Column(nullable = false, length = 50)
+	private String password;
+
+	@Column(nullable = false, columnDefinition = "ENUM('Doctor', 'Employee','Admin')")
+	private String role;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "hubId")
+	private Hub hub;
 
 	public int getPersonneId() {
 		return personneId;
@@ -59,28 +58,28 @@ public abstract class Personne {
 		this.personneId = personneId;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getlastName() {
+		return lastName;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setlastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getPrenom() {
-		return prenom;
+	public String getfirstName() {
+		return firstName;
 	}
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setfirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public Date getDateNaissance() {
-		return dateNaissance;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setDateNaissance(Date dateNaissance) {
-		this.dateNaissance = dateNaissance;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getTelephone() {
@@ -99,12 +98,12 @@ public abstract class Personne {
 		this.email = email;
 	}
 
-	public String getMotDePasse() {
-		return motDePasse;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRole() {
@@ -114,31 +113,30 @@ public abstract class Personne {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
-	public Centre getCentre() {
-		return centre;
+
+	public Hub getHub() {
+		return hub;
 	}
 
-	public void setCentre(Centre centre) {
-		this.centre = centre;
+	public void setHub(Hub hub) {
+		this.hub = hub;
 	}
-	
+
 	public Personne() {
 		super();
 	}
 
-	public Personne(int personneId, String nom, String prenom, Date dateNaissance, String telephone, String email,
-			String motDePasse, String role, Centre centre) {
+	public Personne(int personneId, String lastName, String firstName, Date birthDate, String telephone, String email,
+			String password, String role, Hub hub) {
 		super();
 		this.personneId = personneId;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.dateNaissance = dateNaissance;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
 		this.telephone = telephone;
 		this.email = email;
-		this.motDePasse = motDePasse;
+		this.password = password;
 		this.role = role;
-		this.centre = centre;
+		this.hub = hub;
 	}
-	
 }

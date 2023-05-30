@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthHub.healthHub.model.Personne;
@@ -30,13 +29,14 @@ public class PersonneController {
 		this.personneRepository = personneRepository;
 	}
 	
-	@PostMapping("/personne")
-	public ResponseEntity<Personne> createPersonne(@RequestBody Personne personne) {
-		Personne createdPersonne = personneRepository.save(personne);
-		return new ResponseEntity<>(createdPersonne, HttpStatus.CREATED);
-	}
+	/* The class Personne is an abstract class, so we can't create instances of the class
+	 * @PostMapping("/personne") public ResponseEntity<Personne>
+	 * createPersonne(@RequestBody Personne personne) { Personne createdPersonne =
+	 * personneRepository.save(personne); return new
+	 * ResponseEntity<>(createdPersonne, HttpStatus.CREATED); }
+	 */
 	
-	@GetMapping("/personnes")
+	@GetMapping("/personns")
 	public ResponseEntity<List<Personne>> getAllPersonnes() {
 	    List<Personne> personnes = personneRepository.findAll();
 	    return new ResponseEntity<>(personnes, HttpStatus.OK);
@@ -56,14 +56,14 @@ public class PersonneController {
 	    Optional<Personne> optionalPersonne = personneRepository.findById(id);
 	    if (optionalPersonne.isPresent()) {
 	    	Personne existingPersonne = optionalPersonne.get();
-	        existingPersonne.setNom(updatedPersonne.getNom()); 
-	        existingPersonne.setPrenom(updatedPersonne.getPrenom()); 
-	        existingPersonne.setDateNaissance(updatedPersonne.getDateNaissance());
+	        existingPersonne.setlastName(updatedPersonne.getlastName()); 
+	        existingPersonne.setfirstName(updatedPersonne.getfirstName()); 
+	        existingPersonne.setBirthDate(updatedPersonne.getBirthDate());
 	        existingPersonne.setTelephone(updatedPersonne.getTelephone());
 	        existingPersonne.setEmail(updatedPersonne.getEmail());
-	        existingPersonne.setMotDePasse(updatedPersonne.getMotDePasse());
+	        existingPersonne.setPassword(updatedPersonne.getPassword());
 	        existingPersonne.setRole(updatedPersonne.getRole());
-	        existingPersonne.setCentre(updatedPersonne.getCentre());
+	        existingPersonne.setHub(updatedPersonne.getHub());
 	        Personne savedPersonne = personneRepository.save(existingPersonne);
 	        return new ResponseEntity<>(savedPersonne, HttpStatus.OK);
 	    } else {
