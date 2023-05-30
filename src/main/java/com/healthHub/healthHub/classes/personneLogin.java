@@ -8,6 +8,15 @@ public class personneLogin {
 	private Date birthDate;
 	private String telephone;
 	private String email;
+	private String role;
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	private long idHub;
 
 	public String getlastName() {
@@ -63,7 +72,7 @@ public class personneLogin {
 	}
 
 	public personneLogin(String lastName, String firstName, Date birthDate, String telephone, String email,
-			long idHub) {
+			long idHub,String role) {
 		super();
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -71,6 +80,7 @@ public class personneLogin {
 		this.telephone = telephone;
 		this.email = email;
 		this.idHub = idHub;
+		this.role=role;
 	}
 
 }
