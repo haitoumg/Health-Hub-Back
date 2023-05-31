@@ -90,8 +90,8 @@ public class AppointmentController {
 		    if (optionalC.isPresent()) {
 		    	existingrv.setCalendar((optionalC.get()));
 		    }
-		    Appointment savedEmployee = appointmentRepository.save(existingrv);
-	        return new ResponseEntity<>(savedEmployee, HttpStatus.OK);
+		    Appointment savedApp = appointmentRepository.save(existingrv);
+	        return new ResponseEntity<>(savedApp, HttpStatus.OK);
 	    } else {
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	    }

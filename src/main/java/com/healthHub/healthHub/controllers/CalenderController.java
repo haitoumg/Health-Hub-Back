@@ -80,8 +80,8 @@ public class CalenderController {
 		    	existingCalendrier.setDoctor((optionalHub.get()));
 		    }
 
-		    Calendar savedDoctor = calenderRepository.save(existingCalendrier);
-	        return new ResponseEntity<>(savedDoctor, HttpStatus.OK);
+		    Calendar savedCalendar = calenderRepository.save(existingCalendrier);
+	        return new ResponseEntity<>(savedCalendar, HttpStatus.OK);
 	    } else {
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	    }
