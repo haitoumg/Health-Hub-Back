@@ -7,40 +7,41 @@ Web application built in React and Spring Boot to manage the health services pro
 - Reservation for appointment
 - Consulting schedule
 - Notification by email
+- Generates a diagnostic file during consumtation
 
 ## Database Schema
 
 The project utilizes a relational database to store data. Below is an example of the database schema:
 
-## Centre
+## Hub
 
-| Field       | Type    | Description                      |
-|-------------|---------|----------------------------------|
-| centre_id   | INT     | Unique identifier for the center |
-| adresse     | VARCHAR | Address of the center            |
-| centre_name | VARCHAR | Name of the center               |
-| ville       | VARCHAR | Either Tetouan or Casablanca     |
+| Field       | Type    | Description                    |
+|-------------|---------|--------------------------------|
+| hub_id      | INT     | Unique identifier for the hub  |
+| address     | VARCHAR | Address of the hub             |
+| hub_name    | VARCHAR | Name of the hub                |
+| address     | VARCHAR | The city of the hub            |
 
 ## Personne
 
 | Field         | Type    | Description                        |
 |---------------|---------|----------------------------------  |
 | personneId    | INT     | Unique identifier for the personne |
-| nom           | VARCHAR | Last name of the personne          |
-| prenom        | VARCHAR | first name of the personne         |
+| last_name     | VARCHAR | Last name of the personne          |
+| first_name    | VARCHAR | first name of the personne         |
 | email         | VARCHAR | Email of the personne              |
-| mot_de_passe  | VARCHAR | Password                           |
+| password      | VARCHAR | Password to login in               |
 | telephone     | VARCHAR | Phone number of the personne       |
-| date_naissance| VARCHAR | Birthday of the personne           |
-| role          | VARCHAR | Either a Docter or Employe         |
-| centre_id     | INT     | Referance to the center            |
+| birth_date    | VARCHAR | Birthday of the personne           |
+| role          | VARCHAR | Either a Docter or Employe or Admin|
+| hub_id        | INT     | Referance to the hub               |
 
 ## Docteur
 
 | Field       | Type    | Description                      |
 |-------------|---------|----------------------------------|
-| num_docteur | INT     | Unique identifier for the docter|
-| specialité  | VARCHAR | Speciality of the docter        |
+| num_docteur | INT     | Unique identifier for the docter |
+| specialty   | VARCHAR | Speciality of the docter         |
 | personne_id | INT     | Referance to the table personne  |
 
 ## Employee
@@ -50,22 +51,24 @@ The project utilizes a relational database to store data. Below is an example of
 | num_employe | INT     | Unique identifier for the employee|
 | personne_id | INT     | Referance to the table personne   |
 
-## calendrier
+## calendar
 
 | Field        | Type    | Description                       |
 |--------------|---------|-----------------------------------|
-| calendrier_id| INT     | Unique identifier for the calender|
-| jour_travail | INT     | Referance to the table personne   |
+| calendar_id  | INT     | Unique identifier for the calender|
+| working_day  | DATETIME| The date of working for the doctor|
+| start_time   | TIME    | The start timing for working      |
+| end_time     | TIME    | The end timing for working        |
+| personne_id  | INT     | Referance to the table personne   |
 
-## Rendez-vous
+## Appointment
 
 | Field           | Type    | Description                              |
 |-----------------|---------|------------------------------------------|
-| rendez_vous_id  | INT     | Unique identifier for the appointment    |
+| appointment_id  | INT     | Unique identifier for the appointment    |
 | annule          | BIT     | Indicates if the appointment is cancelled|
-| accept          | BIT     | Indicates if the appointment is cancelled|
-| date_rendez_vous| DATETIME| Timing of the appointment                |
-| calendrier_id   | INT     | referance to the table calender          |
+| date_appointment| DATETIME| Timing of the appointment                |
+| calendar_id     | INT     | referance to the table calender          |
 | personne_id     | INT     | referance to the table personne          |
 
 ## Usage
@@ -75,39 +78,39 @@ To test the application, please follow these instructions :
 - After cloning the project to your IDE , make sure before testing to launch MySQL and run the java class HealthHubApplication
 - By typing in the URL of your browser or API development tool (Postman for example), try this :
 
-## Center
+## Hub 
 
-### Inserting a center
+### Inserting a hub 
 
-http://localhost:9090/centre (POST)
+http://localhost:9090/hub (POST)
 
 {
-  "centreName": "Example Centre",
-  "ville": "Tetouan",
-  "adresse": "Example Address"
+  "hubName": "Example hub",
+  "city": "Tetouan",
+  "address": "Example Address"
 }
 
-### Updating a center
+### Updating a hub 
 
-http://localhost:9090/centre/{id} (PUT)
+http://localhost:9090/hub/{id} (PUT)
 
   {
-   		"centreName": "Updated Example",
-        "ville": "Tetouan",
-        "adresse": "Updated Address"
+   		"hubName": "Updated Example",
+        "city": "Casablanca",
+        "address": "Updated Address"
     }
  
-### Showing a center 
+### Showing a hub  
 
-http://localhost:9090/centre/{id} (GET)
+http://localhost:9090/hub/{id} (GET)
 
-### Showing all centers
+### Showing all hub s
 
-http://localhost:9090/centres (GET)
+http://localhost:9090/hubs (GET)
 
-### Deleting a center 
+### Deleting a hub  
 
-http://localhost:9090/centre/{id} (DELETE)
+http://localhost:9090/hub/{id} (DELETE)
 
 
 ## Docteur
@@ -117,25 +120,25 @@ http://localhost:9090/centre/{id} (DELETE)
 http://localhost:9090/docteur (POST)
 
 {
-    "nom":"nom",
-    "prenom":"prenom",
+    "last_name":"last_name",
+    "first_name":"first_name",
     "dateNaissance": "1990-01-04",
     "telephone":"+212 6 00000",
     "email":"email@gamil.com",
     "motDePasse":"*******",
     "role":"Docteur",
-    "centre":1,
+    "hub":1,
     "specialité":"generaliste",
     "numDocteur":1
 }
 
 ### Updating a docteur
 
-http://localhost:9090/centre/{id} (PUT)
+http://localhost:9090/hub/{id} (PUT)
 
 {
-  "nom": "Updated Nom",
-  "prenom": "Updated Prenom",
+  "last_name": "Updated last_name",
+  "first_name": "Updated first_name",
   "dateNaissance": "01-01-1999",
   "telephone": "+212 000000000",
   "email": "email@gmail.com",
@@ -162,25 +165,25 @@ http://localhost:9090/docteur/{id} (DELETE)
 http://localhost:9090/employee (POST)
 
 {
-    "nom":"nom",
-    "prenom":"prenom",
+    "last_name":"last_name",
+    "first_name":"first_name",
     "dateNaissance": "1990-01-04",
     "telephone":"+212 6 00000",
     "email":"email@gamil.com",
     "motDePasse":"*******",
     "role":"Docteur",
-    "centre":1,
+    "hub":1,
     "specialité":"generaliste",
     "numDocteur":1
 }
 
 ### Updating a employee
 
-http://localhost:9090/centre/{id} (PUT)
+http://localhost:9090/hub/{id} (PUT)
 
 {
-  "nom": "Updated Nom",
-  "prenom": "Updated Prenom",
+  "last_name": "Updated last_name",
+  "first_name": "Updated first_name",
   "dateNaissance": "01-01-1999",
   "telephone": "+212 000000000",
   "email": "email@gmail.com",
