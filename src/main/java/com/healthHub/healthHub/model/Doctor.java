@@ -48,5 +48,9 @@ public class Doctor extends Personne {
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Calendar> Calendars;
+	
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<diagnostic> diagnostic;
 
 }
