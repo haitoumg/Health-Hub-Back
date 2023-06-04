@@ -37,10 +37,13 @@ public abstract class Personne {
 	@Column(nullable = false, length = 50)
 	private String telephone;
 
-	@Column(nullable = false, length = 50)
+
+	@Column(nullable = false, length = 50, unique = true)
 	private String email;
 
-	@Column(nullable = false, length = 50)
+    
+	@Column(nullable = false, length = 255)
+
 	private String password;
 
 	@Column(nullable = false, columnDefinition = "ENUM('Doctor', 'Employee','Admin')")
@@ -105,6 +108,7 @@ public abstract class Personne {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 
 	public String getRole() {
 		return role;

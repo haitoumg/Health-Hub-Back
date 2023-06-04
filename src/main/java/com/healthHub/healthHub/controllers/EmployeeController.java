@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +35,18 @@ public class EmployeeController {
 		this.employeeRepository = employeeRepository;
 	}
 
+	
+
 	@PostMapping("/employee")
 	public ResponseEntity<Employee> createEmploye(@RequestBody EmployeeRequer employeRequ) {
-
+		//Creation of object from the hashing class
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		String encryPwd= bcrypt.encode(employeRequ.getPassword());
 		Employee employee=new Employee(employeRequ.getnumEmployee());
+		//saving employee with hashed password
+		employee.setPassword(encryPwd);
 		employee.setEmail(employeRequ.getEmail());
 		employee.setBirthDate(employeRequ.getBirthDate());
-		employee.setPassword(employeRequ.getPassword());
 		employee.setlastName(employeRequ.getlastName());
 		employee.setfirstName(employeRequ.getfirstName());
 		employee.setRole("Employee");

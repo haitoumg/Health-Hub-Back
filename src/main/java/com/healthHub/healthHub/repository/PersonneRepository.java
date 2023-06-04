@@ -9,7 +9,10 @@ import com.healthHub.healthHub.model.Personne;
 
 @Repository
 public interface PersonneRepository extends JpaRepository<Personne, Long> {
-	Optional<Personne> findByemailAndPassword(String email, String password);
+
+	//the search should be by email only because password is not hashed yet
+	//Optional<Personne> findByemailAndPassword(String email, String password);
+
 
 	Optional<Personne> findByemail(String email);
 }

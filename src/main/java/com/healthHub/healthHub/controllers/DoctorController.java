@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +38,12 @@ public class DoctorController {
 	@PostMapping("/doctor")
 	public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorRequer doctorRequ) {
 		Doctor doctor=new Doctor(doctorRequ.getNumDoctor(), doctorRequ.getSpecialty());
+
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		String encryPwd= bcrypt.encode(doctorRequ.getPassword());
 		doctor.setEmail(doctorRequ.getEmail());
 		doctor.setBirthDate(doctorRequ.getBirthDate());
-		doctor.setPassword(doctorRequ.getPassword());
+		doctor.setPassword(encryPwd);
 		doctor.setlastName(doctorRequ.getlastName());
 		doctor.setfirstName(doctorRequ.getfirstName());
 		doctor.setRole("Doctor");

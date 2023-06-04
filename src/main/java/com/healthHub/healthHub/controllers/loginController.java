@@ -5,8 +5,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,9 +36,17 @@ public class loginController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> getPersonneBylogin(@RequestBody loginRequer login) {
-		Optional<Personne>  personne = personneRepository.findByemailAndPassword(login.getEmail(),login.getPassword());
+
+		//Get the password of the person (crypted and saved in DB)
 		
-		if (personne.isPresent()) {
+		//Call the same class for encryption
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		Optional<Personne>  personne = personneRepository.findByemail(login.getEmail());
+		//There's no decrypting method in this class => use matching passwords (raw, crypted)
+		
+		if (personne.isPresent() && bcrypt.matches(login.getPassword(), personne.get().getPassword())) 
+		{
+
 			personneLogin p=new personneLogin(personne.get().getlastName(),personne.get().getfirstName(),personne.get().getBirthDate(),personne.get().getTelephone(),personne.get().getEmail(),personne.get().getHub().getHubId(),personne.get().getRole());
 			return new ResponseEntity<>(p, HttpStatus.OK);
 		} else {
@@ -42,16 +55,22 @@ public class loginController {
 	        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
 	}
+
+
 	@PutMapping("/changepassword")
-	public ResponseEntity<Personne> changePassword(@RequestBody loginRequer login) {
+	public ResponseEntity<?> changePassword(@RequestBody loginRequer login) {
 		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
 		if (personne.isPresent()) {
-			Personne existingPersonne =personne.get();
-			existingPersonne.setPassword(login.getPassword());
-			Personne savedPersonne =personneRepository.save(existingPersonne);
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+			String encryPwd= bcrypt.encode(login.getPassword());
+			Personne existingPersonne = personne.get();
+			existingPersonne.setPassword(encryPwd);
+			Personne savedPersonne = personneRepository.save(existingPersonne);
 			return new ResponseEntity<>(savedPersonne, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			String errorMessage = "Email not found";
+			ErrorResponse errorResponse = new ErrorResponse(errorMessage);
+			return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
-	}	
+	}
 }
