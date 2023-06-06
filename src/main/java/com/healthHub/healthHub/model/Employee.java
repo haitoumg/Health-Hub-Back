@@ -37,7 +37,7 @@ public class Employee extends Personne {
 	private List<Appointment> appointment;
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private List<diagnostic> diagnostic;
+	private List<Diagnostic> diagnostic;
 
 
 }

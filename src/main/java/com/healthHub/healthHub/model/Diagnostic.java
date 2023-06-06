@@ -11,7 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class diagnostic {
+public class Diagnostic {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int DiagnosticId;
@@ -59,11 +59,10 @@ public class diagnostic {
 		this.doctor = doctor;
 	}
 
-	public diagnostic() {
-
+	public Diagnostic() {
 	}
 
-	public diagnostic(int diagnosticId, String note, Employee employee, Doctor doctor) {
+	public Diagnostic(int diagnosticId, String note, Employee employee, Doctor doctor) {
 		super();
 		DiagnosticId = diagnosticId;
 		this.note = note;
