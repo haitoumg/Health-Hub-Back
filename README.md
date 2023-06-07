@@ -84,21 +84,21 @@ To test the application, please follow these instructions :
 
 http://localhost:9090/hub (POST)
 
-{
-  "hubName": "Example hub",
-  "city": "Tetouan",
-  "address": "Example Address"
-}
+ {
+	"hubName": "Example hub",
+	"city": "Tetouan",
+	"address": "Example Address"
+ }
 
 ### Updating a hub 
 
 http://localhost:9090/hub/{id} (PUT)
 
-  {
-   		"hubName": "Updated Example",
-        "city": "Casablanca",
-        "address": "Updated Address"
-    }
+ {
+	"hubName": "Updated Example",
+	"city": "Casablanca",
+	"address": "Updated Address"
+ }
  
 ### Showing a hub  
 
@@ -112,51 +112,53 @@ http://localhost:9090/hubs (GET)
 
 http://localhost:9090/hub/{id} (DELETE)
 
+## Doctor
 
-## Docteur
+### Inserting a doctor
 
-### Inserting a docteur
+http://localhost:9090/doctor (POST)
 
-http://localhost:9090/docteur (POST)
+ { 
+	"lastName":"last name 1", 
+	"firstName":"first name 1", 
+	"birthDate": "1990-01-04", 
+	"telephone":"+212 6 00000000", 
+	"email":"email1@gamil.com", 
+	"password":"*******", 
+	"role":"Docteur", 
+	"idHub":1, 
+	"specialty":"generaliste", 
+	"numDoctor":1 
+ }
 
-{
-    "last_name":"last_name",
-    "first_name":"first_name",
-    "dateNaissance": "1990-01-04",
-    "telephone":"+212 6 00000",
-    "email":"email@gamil.com",
-    "motDePasse":"*******",
-    "role":"Docteur",
-    "hub":1,
-    "specialité":"generaliste",
-    "numDocteur":1
-}
+### Updating a doctor
 
-### Updating a docteur
+http://localhost:9090/doctor/{id} (PUT)
 
-http://localhost:9090/hub/{id} (PUT)
+ { 
+	"lastName":"Updated last_name1", 
+	"firstName":"Updated first name1", 
+	"birthDate": "1990-01-04", 
+	"telephone":"+212 6 00000", 
+	"email":"email2@gamil.com", 
+	"password":"*******", 
+	"role":"Docteur", 
+	"idHub":2, 
+	"specialty":"generaliste", 
+	"numDoctor":3 
+ }
 
-{
-  "last_name": "Updated last_name",
-  "first_name": "Updated first_name",
-  "dateNaissance": "01-01-1999",
-  "telephone": "+212 000000000",
-  "email": "email@gmail.com",
-  "motDePasse": "****",
-  "role" : "Docteur"  
-}
+### Showing a doctor 
 
-### Showing a docteur 
+http://localhost:9090/doctor/{id} (GET)
 
-http://localhost:9090/docteur/{id} (GET)
+### Showing all doctor
 
-### Showing all docteur
+http://localhost:9090/doctor (GET)
 
-http://localhost:9090/docteurs (GET)
+### Deleting a doctor
 
-### Deleting a docteur
-
-http://localhost:9090/docteur/{id} (DELETE)
+http://localhost:9090/doctor/{id} (DELETE)
 
 ## Employee
 
@@ -164,34 +166,35 @@ http://localhost:9090/docteur/{id} (DELETE)
 
 http://localhost:9090/employee (POST)
 
-{
-    "last_name":"last_name",
-    "first_name":"first_name",
-    "dateNaissance": "1990-01-04",
-    "telephone":"+212 6 00000",
-    "email":"email@gamil.com",
-    "motDePasse":"*******",
-    "role":"Docteur",
-    "hub":1,
-    "specialité":"generaliste",
-    "numDocteur":1
-}
+ { 
+	"lastName":"Updated last name 1", 
+	"firstName":"Updated first name 1", 
+	"birthDate": "1990-01-04", 
+	"telephone":"+212 6 00000", 
+	"email":"email1@gamil.com", 
+	"password":"*******", 
+	"role":"Employee", 
+	"idHub":2, 
+	"numEmployee":1 
+ }
 
 ### Updating a employee
 
-http://localhost:9090/hub/{id} (PUT)
+http://localhost:9090/employee/{id} (PUT)
 
-{
-  "last_name": "Updated last_name",
-  "first_name": "Updated first_name",
-  "dateNaissance": "01-01-1999",
-  "telephone": "+212 000000000",
-  "email": "email@gmail.com",
-  "motDePasse": "****",
-  "role" : "Docteur"  
-}
+ {
+	"lastName":"Updatedlast name 1", 
+	"firstName":"Updated first name 1", 
+	"birthDate": "1990-01-04", 
+	"telephone":"+212 6 00000", 
+	"email":"email2@gamil.com", 
+	"password":"*******", 
+	"role":"Employee", 
+	"idHub":1, 
+	"numEmployee":1 
+ }
 
-### Showing a employee 
+### Showing an employee 
 
 http://localhost:9090/employee/{id} (GET)
 
@@ -203,7 +206,63 @@ http://localhost:9090/employes (GET)
 
 http://localhost:9090/employe/{id} (DELETE)
 
+************
+## Calender
 
+### Inserting a calender
+
+http://localhost:9090/calender (POST)
+
+ {
+ 	"workingDay":"2023-06-05",
+	"startTime":"10:00:00",
+	"endTime":"14:00:00",
+	"doctorId":2 
+ }
+
+### Updating a calender
+
+http://localhost:9090/calender/{id} (PUT)
+
+ { 
+	"workingDay":"2023-06-10",
+	"startTime":"11:00:00",
+	"endTime":"13:00:00",
+	"doctorId":1 
+ }
+
+### Showing a calender 
+
+http://localhost:9090/calender/{id} (GET)
+
+### Showing all calendars
+
+http://localhost:9090/calendars (GET)
+
+### Deleting a calendar
+
+http://localhost:9090/calendar/{id} (DELETE)
+
+## Appointment
+
+## Login
+
+http://localhost:9090/login (POST)
+
+ {
+	"email":"test@gamil.com",
+	"password":"123"
+ }
+ 
+## Change Password 
+ 
+http://localhost:9090/changepassword (PUT)
+
+ {
+	"email":"test@gamil.com",
+	"password":"Updated"
+ } 
+ 
 ### Others API *******
 
 ## Email sending
@@ -216,5 +275,4 @@ http://localhost:9090/sendMail (GET)
     "body":"Test"
 }
 
-## Forgetting password
 

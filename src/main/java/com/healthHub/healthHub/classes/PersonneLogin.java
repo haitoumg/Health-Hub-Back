@@ -2,7 +2,7 @@ package com.healthHub.healthHub.classes;
 
 import java.util.Date;
 
-public class personneLogin {
+public class PersonneLogin {
 	private String lastName;
 	private String firstName;
 	private Date birthDate;
@@ -67,11 +67,11 @@ public class personneLogin {
 		this.idHub = idHub;
 	}
 
-	public personneLogin() {
+	public PersonneLogin() {
 		super();
 	}
 
-	public personneLogin(String lastName, String firstName, Date birthDate, String telephone, String email,
+	public PersonneLogin(String lastName, String firstName, Date birthDate, String telephone, String email,
 			long idHub,String role) {
 		super();
 		this.lastName = lastName;

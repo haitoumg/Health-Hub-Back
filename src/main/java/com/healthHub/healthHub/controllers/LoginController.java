@@ -19,50 +19,51 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthHub.healthHub.classes.ErrorResponse;
 import com.healthHub.healthHub.classes.loginRequer;
-import com.healthHub.healthHub.classes.personneLogin;
+import com.healthHub.healthHub.classes.PersonneLogin;
 import com.healthHub.healthHub.model.Personne;
 import com.healthHub.healthHub.repository.PersonneRepository;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class loginController {
+public class LoginController {
 
 	private final PersonneRepository personneRepository;
 
 	@Autowired
-	public loginController(PersonneRepository personneRepository) {
+	public LoginController(PersonneRepository personneRepository) {
 		this.personneRepository = personneRepository;
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<?> getPersonneBylogin(@RequestBody loginRequer login) {
 
-		//Get the password of the person (crypted and saved in DB)
-		
-		//Call the same class for encryption
-		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-		Optional<Personne>  personne = personneRepository.findByemail(login.getEmail());
-		//There's no decrypting method in this class => use matching passwords (raw, crypted)
-		
-		if (personne.isPresent() && bcrypt.matches(login.getPassword(), personne.get().getPassword())) 
-		{
+		// Get the password of the person (crypted and saved in DB)
 
-			personneLogin p=new personneLogin(personne.get().getlastName(),personne.get().getfirstName(),personne.get().getBirthDate(),personne.get().getTelephone(),personne.get().getEmail(),personne.get().getHub().getHubId(),personne.get().getRole());
+		// Call the same class for encryption
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
+		// There's no decrypting method in this class => use matching passwords (raw,
+		// crypted)
+
+		if (personne.isPresent() && bcrypt.matches(login.getPassword(), personne.get().getPassword())) {
+
+			PersonneLogin p = new PersonneLogin(personne.get().getlastName(), personne.get().getfirstName(),
+					personne.get().getBirthDate(), personne.get().getTelephone(), personne.get().getEmail(),
+					personne.get().getHub().getHubId(), personne.get().getRole());
 			return new ResponseEntity<>(p, HttpStatus.OK);
 		} else {
 			String errorMessage = "Incorrect Email or Password";
-	        ErrorResponse errorResponse = new ErrorResponse(errorMessage);
-	        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+			ErrorResponse errorResponse = new ErrorResponse(errorMessage);
+			return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
 	}
-
 
 	@PutMapping("/changepassword")
 	public ResponseEntity<?> changePassword(@RequestBody loginRequer login) {
 		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
 		if (personne.isPresent()) {
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-			String encryPwd= bcrypt.encode(login.getPassword());
+			String encryPwd = bcrypt.encode(login.getPassword());
 			Personne existingPersonne = personne.get();
 			existingPersonne.setPassword(encryPwd);
 			Personne savedPersonne = personneRepository.save(existingPersonne);
