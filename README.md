@@ -245,7 +245,9 @@ http://localhost:9090/calendar/{id} (DELETE)
 
 ## Appointment
 ### Insert a Appointement 
-http://localhost:9090/appointment
+http://localhost:9090/appointment (POST)
+
+
 {
     "employeeId":1,
     "calendarId":1,
