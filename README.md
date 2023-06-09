@@ -244,6 +244,13 @@ http://localhost:9090/calendars (GET)
 http://localhost:9090/calendar/{id} (DELETE)
 
 ## Appointment
+### Insert a Appointement 
+http://localhost:9090/appointment
+{
+    "employeeId":1,
+    "calendarId":1,
+    "dateAppointment":"2023-06-23T12:30:00"
+}
 
 ## Login
 
