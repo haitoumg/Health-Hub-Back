@@ -9,6 +9,8 @@ public class PersonneLogin {
 	private String telephone;
 	private String email;
 	private String role;
+	private String hubName;
+	private String hubCity;
 	public String getRole() {
 		return role;
 	}
@@ -21,6 +23,22 @@ public class PersonneLogin {
 
 	public String getlastName() {
 		return lastName;
+	}
+
+	public String getHubName() {
+		return hubName;
+	}
+
+	public void setHubName(String hubName) {
+		this.hubName = hubName;
+	}
+
+	public String getHubCity() {
+		return hubCity;
+	}
+
+	public void setHubCity(String hubCity) {
+		this.hubCity = hubCity;
 	}
 
 	public void setlastName(String lastName) {

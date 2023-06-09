@@ -50,6 +50,8 @@ public class LoginController {
 			PersonneLogin p = new PersonneLogin(personne.get().getlastName(), personne.get().getfirstName(),
 					personne.get().getBirthDate(), personne.get().getTelephone(), personne.get().getEmail(),
 					personne.get().getHub().getHubId(), personne.get().getRole());
+			p.setHubName(personne.get().getHub().getHubName());
+			p.setHubCity(personne.get().getHub().getCity());
 			return new ResponseEntity<>(p, HttpStatus.OK);
 		} else {
 			String errorMessage = "Incorrect Email or Password";
