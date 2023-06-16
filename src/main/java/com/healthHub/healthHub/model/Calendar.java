@@ -23,7 +23,7 @@ import jakarta.persistence.OneToMany;
 public class Calendar {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int CalendarId;
+	private int calendarId;
 
 	@Column(nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -35,16 +35,26 @@ public class Calendar {
 	@Column(nullable = false)
 	private Time endTime;
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	@Column(name = "text")
+	private String text;
 	public Calendar() {
 
 	}
 
 	public int getCalendarId() {
-		return CalendarId;
+		return calendarId;
 	}
 
 	public void setCalendarId(int CalendarId) {
-		this.CalendarId = CalendarId;
+		this.calendarId = CalendarId;
 	}
 
 	public Date getworkingDay() {
@@ -74,7 +84,7 @@ public class Calendar {
 	public Calendar(int CalendarId, Date workingDay, Time startTime, Time endTime, Doctor doctor,
 			List<Appointment> appointement) {
 		super();
-		this.CalendarId = CalendarId;
+		this.calendarId = CalendarId;
 		this.workingDay = workingDay;
 		this.startTime = startTime;
 		this.endTime = endTime;

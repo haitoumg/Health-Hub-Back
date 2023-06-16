@@ -6,16 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.healthHub.healthHub.classes.ErrorResponse;
 import com.healthHub.healthHub.classes.loginRequer;
@@ -47,7 +41,7 @@ public class LoginController {
 
 		if (personne.isPresent() && bcrypt.matches(login.getPassword(), personne.get().getPassword())) {
 
-			PersonneLogin p = new PersonneLogin(personne.get().getlastName(), personne.get().getfirstName(),
+			PersonneLogin p = new PersonneLogin(personne.get().getPersonneId(), personne.get().getlastName(), personne.get().getfirstName(),
 					personne.get().getBirthDate(), personne.get().getTelephone(), personne.get().getEmail(),
 					personne.get().getHub().getHubId(), personne.get().getRole());
 			p.setHubName(personne.get().getHub().getHubName());
@@ -59,7 +53,15 @@ public class LoginController {
 			return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
 	}
-
+	@GetMapping("/personne")
+	public ResponseEntity<Personne> getUserByLogin(@RequestParam String login) {
+		Optional<Personne> personne = personneRepository.findByemail(login);
+		if (personne.isPresent()) {
+			return ResponseEntity.ok(personne.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 	@PutMapping("/changepassword")
 	public ResponseEntity<?> changePassword(@RequestBody loginRequer login) {
 		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());

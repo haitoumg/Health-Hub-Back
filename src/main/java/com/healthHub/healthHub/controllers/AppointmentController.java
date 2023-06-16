@@ -6,14 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.healthHub.healthHub.classes.AppointmentRequer;
 import com.healthHub.healthHub.model.Calendar;
@@ -59,10 +52,21 @@ public class AppointmentController {
 	
 	@GetMapping("/appointments")
 	public ResponseEntity<List<Appointment>> getAllCalendriers() {
-	    List<Appointment> calendars = appointmentRepository.findAll();
-	    return new ResponseEntity<>(calendars, HttpStatus.OK);
+	    List<Appointment> appointments = appointmentRepository.findAll();
+	    return new ResponseEntity<>(appointments, HttpStatus.OK);
 	}
-	
+	@GetMapping("/availableAppointments")
+	public ResponseEntity<List<Appointment>> getAvailableAppointments(@RequestParam("personneId") int personneId) {
+		List<Appointment> appointments = appointmentRepository.findAllByCancelledAndCalendarDoctorPersonneId(false, personneId);
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
+	}
+	@GetMapping("/findAll")
+	public List<Appointment> getAllAppointmentByHubAndIsCancelled(
+			@RequestParam("what_hub_reservation") String whatHubReservation,
+			@RequestParam("is_cancelled") boolean isCancelled
+	) {
+		return appointmentRepository.findAllByCalendarDoctorHubHubNameAndCancelled(whatHubReservation, isCancelled);
+	}
 	@GetMapping("/appointment/{id}")
 	public ResponseEntity<Appointment> getCalendrierById(@PathVariable("id") Long id) {
 		Optional<Appointment> rv = appointmentRepository.findById(id);
@@ -72,6 +76,7 @@ public class AppointmentController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 	@PutMapping("/appointment/{id}")
 	public ResponseEntity<Appointment> updateDCalendrier(@PathVariable("id") Long id, @RequestBody AppointmentRequer appRequ) {
 	    Optional<Appointment> optionalrv = appointmentRepository.findById(id);

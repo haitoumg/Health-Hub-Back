@@ -3,6 +3,8 @@ package com.healthHub.healthHub.classes;
 import java.util.Date;
 
 public class PersonneLogin {
+
+	private int personneId;
 	private String lastName;
 	private String firstName;
 	private Date birthDate;
@@ -11,6 +13,14 @@ public class PersonneLogin {
 	private String role;
 	private String hubName;
 	private String hubCity;
+	public int getPersonneId() {
+		return personneId;
+	}
+
+	public void setPersonneId(int personneId) {
+		this.personneId = personneId;
+	}
+
 	public String getRole() {
 		return role;
 	}
@@ -89,9 +99,10 @@ public class PersonneLogin {
 		super();
 	}
 
-	public PersonneLogin(String lastName, String firstName, Date birthDate, String telephone, String email,
+	public PersonneLogin(int personneId, String lastName, String firstName, Date birthDate, String telephone, String email,
 			long idHub,String role) {
 		super();
+		this.personneId=personneId;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.birthDate = birthDate;

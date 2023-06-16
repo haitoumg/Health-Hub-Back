@@ -21,7 +21,8 @@ public class Appointment {
 	@Column(nullable = false)
 	private Date dateAppointment;
 
-	@Column(nullable = false)
+
+	@Column(nullable = false, columnDefinition = "BOOLEAN")
 	private boolean cancelled;
 
 	@ManyToOne(fetch = FetchType.EAGER)

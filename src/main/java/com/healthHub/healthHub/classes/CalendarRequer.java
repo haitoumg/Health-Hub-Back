@@ -1,5 +1,7 @@
 package com.healthHub.healthHub.classes;
 
+import jakarta.persistence.Column;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -8,6 +10,15 @@ public class CalendarRequer {
 	private Time startTime;
 	private Time endTime;
 	private long doctorId;
+	private String text;
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 
 	public long getDoctorId() {
 		return doctorId;
