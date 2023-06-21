@@ -8,9 +8,16 @@ public class CalendarInfos {
     private Time startTime;
     private Time endTime;
     private boolean isBooked;
+    private int calendarId;
+
+    public int getCalendarId() {
+        return calendarId;
+    }
 
 
-
+    public void setCalendarId(int calendarId) {
+        this.calendarId = calendarId;
+    }
     public CalendarInfos(Date workingDay, Time startTime, Time endTime, String employeeLastName, String employeeFirstName,Boolean isBooked) {
         this.workingDay = workingDay;
         this.startTime = startTime;

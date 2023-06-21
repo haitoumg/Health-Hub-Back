@@ -36,6 +36,7 @@ public class AppointmentController {
 		Appointment app=new Appointment();
 		app.setDateAppointment(appRequ.getDateAppointment());
 		app.setCancelled(false);
+		app.setCancelledByDoctor(false);
 		long idE=appRequ.getEmployeeId();
 		long idC=appRequ.getCalendarId();
 		Optional<Employee> optionalE = employeeRepository.findById(idE);

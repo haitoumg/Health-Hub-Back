@@ -66,6 +66,7 @@ public class LoginController {
 	public ResponseEntity<?> changePassword(@RequestBody loginRequer login) {
 		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
 		if (personne.isPresent()) {
+
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 			String encryPwd = bcrypt.encode(login.getPassword());
 			Personne existingPersonne = personne.get();

@@ -22,9 +22,13 @@ public class Appointment {
 	private Date dateAppointment;
 
 
+
 	@Column(nullable = false, columnDefinition = "BOOLEAN")
 	private boolean cancelled;
 
+
+	@Column(nullable = false, columnDefinition = "BOOLEAN")
+	private boolean cancelledByDoctor;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "personneId")
 	private Employee employee;
@@ -82,8 +86,12 @@ public class Appointment {
 	public boolean isCancelled() {
 		return cancelled;
 	}
-
+	public boolean isCancelledByDoctor(){ return cancelledByDoctor; }
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}
+	public void setCancelledByDoctor(boolean cancelledByDoctor) {
+		this.cancelledByDoctor = cancelledByDoctor;
+	}
+
 }
