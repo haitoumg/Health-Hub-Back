@@ -58,19 +58,21 @@ public class CalenderController {
 	}
 	@PostMapping("/calendarsInfosByDoctor")
 	public ResponseEntity<List<CalendarInfos>> getAllCalendarsInfosByDoctor(@RequestBody Map<String, Integer> requestObject) {
-		List<Calendar> calendars = calenderRepository.findByDoctorPersonneId(requestObject.get("id"));
+		List<Calendar> calendars = calenderRepository.findAllByDoctorPersonneId(requestObject.get("id"));
 		List<CalendarInfos> calendarsInfos=new ArrayList<>();
 		for (int i = 0; i < calendars.size(); i++) {
 			CalendarInfos calendarInfos=null;
 			Calendar calendar = calendars.get(i);
-			Optional<Appointment> possibleAppointment=appointmentRepository.findByCalendarCalendarId(calendar.getCalendarId());
-			if(possibleAppointment.isPresent() && !possibleAppointment.get().isCancelled()){
+			Optional<Appointment> possibleAppointment0=appointmentRepository.findByCancelledByDoctorAndCalendarCalendarId(true, calendar.getCalendarId());
+			if(possibleAppointment0.isPresent()){
+				continue;
+			}
+			Optional<Appointment> possibleAppointment=appointmentRepository.findByCalendarCalendarIdAndCancelled(calendar.getCalendarId(), false);
+			if(possibleAppointment.isPresent()){
 				Appointment appointment=possibleAppointment.get();
 
 					calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), appointment.getEmployee().getlastName(), appointment.getEmployee().getfirstName(), true);
 
-			}else if(possibleAppointment.isPresent() && possibleAppointment.get().isCancelled() && possibleAppointment.get().isCancelledByDoctor()){
-				continue;
 			}
 			else {
 				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), null, null, false);
@@ -90,12 +92,16 @@ public class CalenderController {
 		for (int i = 0; i < calendars.size(); i++) {
 			CalendarInfos calendarInfos=null;
 			Calendar calendar = calendars.get(i);
-			Optional<Appointment> possibleAppointment=appointmentRepository.findByCalendarCalendarId(calendar.getCalendarId());
-			if(possibleAppointment.isPresent() && !possibleAppointment.get().isCancelled() && possibleAppointment.get().getEmployee().getPersonneId() == personneId){
+			Optional<Appointment> possibleAppointment0=appointmentRepository.findByCancelledByDoctorAndCalendarCalendarId(true, calendar.getCalendarId());
+			if(possibleAppointment0.isPresent()){
+				continue;
+			}
+			Optional<Appointment> possibleAppointment=appointmentRepository.findByCalendarCalendarIdAndCancelled(calendar.getCalendarId(), false);
+			if(possibleAppointment.isPresent() && possibleAppointment.get().getEmployee().getPersonneId() == personneId){
 				Appointment appointment=possibleAppointment.get();
 				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), "Reserved for you", " ", true);
 
-			}else if(possibleAppointment.isPresent() && possibleAppointment.get().isCancelledByDoctor()){
+			}else if(possibleAppointment.isPresent() && possibleAppointment.get().getEmployee().getPersonneId() != personneId){
 				continue;
 			}
 			else {

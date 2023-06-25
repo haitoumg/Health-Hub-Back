@@ -11,8 +11,13 @@ import java.util.Optional;
 @Repository
 public interface AppointmentRepository extends JpaRepository <Appointment,Long>{
      List<Appointment> findAllByCancelledAndCalendarDoctorPersonneId(boolean cancelled,int personneId);
+     Optional<Appointment> findByCancelledByDoctorAndCalendarCalendarId(boolean cancelledByDoctor,int calendarId);
 
      List<Appointment> findAllByCalendarDoctorHubHubNameAndCancelled(String whatHubReservation, Boolean isCancelled);
-
+     List<Appointment> findAllByEmployeePersonneId(int personneId);
+     List<Appointment> findAllByCalendarDoctorPersonneId(int personneId);
      Optional<Appointment> findByCalendarCalendarId(int calendarId);
+
+
+     Optional<Appointment> findByCalendarCalendarIdAndCancelled(int calendarId, Boolean isCancelled);
 }
