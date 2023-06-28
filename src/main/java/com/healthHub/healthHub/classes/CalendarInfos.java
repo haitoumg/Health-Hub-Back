@@ -10,6 +10,9 @@ public class CalendarInfos {
     private boolean isBooked;
     private int calendarId;
 
+    private String startDate;
+    private String endDate;
+
     public int getCalendarId() {
         return calendarId;
     }
@@ -26,6 +29,27 @@ public class CalendarInfos {
         this.employeeFirstName = employeeFirstName;
         this.isBooked=isBooked;
     }
+    public CalendarInfos(String startDate, String endDate) {
+      this.startDate=startDate;
+      this.endDate=endDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
     public boolean isBooked() {
         return isBooked;
     }

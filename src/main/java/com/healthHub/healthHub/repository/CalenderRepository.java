@@ -11,5 +11,5 @@ import java.util.List;
 public interface CalenderRepository extends JpaRepository <Calendar,Long>{
     List<Calendar> findByDoctorRoleAndDoctorHubHubName(String userRole, String hub);
     List<Calendar> findByDoctorHubCity(String city);
-    List<Calendar> findByDoctorPersonneId(int personneId);
+    List<Calendar> findAllByDoctorPersonneId(int personneId);
 }
