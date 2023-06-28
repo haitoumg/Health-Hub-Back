@@ -45,6 +45,7 @@ public abstract class Personne {
 	@Column(nullable = false, length = 255)
 
 	private String password;
+	
 
 	@Column(nullable = false, columnDefinition = "ENUM('Doctor', 'Employee','Admin')")
 	private String role;
@@ -143,4 +144,5 @@ public abstract class Personne {
 		this.role = role;
 		this.hub = hub;
 	}
+
 }
