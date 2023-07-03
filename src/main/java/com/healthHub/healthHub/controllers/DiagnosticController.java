@@ -1,5 +1,7 @@
 package com.healthHub.healthHub.controllers;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,14 +57,15 @@ public class DiagnosticController {
 		if (optionalD.isPresent()) {
 			app.setDoctor((optionalD.get()));
 		}
+		app.setDiagnosticDate((Date) java.util.Calendar.getInstance().getTime());
 		Diagnostic createdApp = diagnosticRepository.save(app);
 		return new ResponseEntity<>(createdApp, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/diagnostics")
 	public ResponseEntity<List<Diagnostic>> getAllDiagnostics() {
-		List<Diagnostic> calendars = diagnosticRepository.findAll();
-		return new ResponseEntity<>(calendars, HttpStatus.OK);
+		List<Diagnostic> diagnostics = diagnosticRepository.findAll();
+		return new ResponseEntity<>(diagnostics, HttpStatus.OK);
 	}
 
 	@GetMapping("/diagnostic/{id}")
@@ -74,7 +77,27 @@ public class DiagnosticController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	@GetMapping("/diagnosticByDoctor/{id}")
+	public ResponseEntity<List<Diagnostic>> getDiadnosticByDoctor(@PathVariable("id") Long id) {
+		Optional<Doctor> d=doctorRepository.findById(id);
+		Optional<List<Diagnostic>> app = diagnosticRepository.findAllBydoctor(d.get());
+		if (app.isPresent()) {
+			return new ResponseEntity<>(app.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	@GetMapping("/diagnosticByEmployeeAndDoctor/{id}/{ide}")
+	public ResponseEntity<List<Diagnostic>> getDiadnosticByEmployeeAndDoctor(@PathVariable("id") Long id,@PathVariable("ide") Long ide) {
+		Optional<Employee> e=employeeRepository.findById(ide);
+		Optional<Doctor> d=doctorRepository.findById(id);
+		Optional<List<Diagnostic>> app = diagnosticRepository.findAllByemployeeAndDoctor(e.get(),d.get());
+		if (app.isPresent()) {
+			return new ResponseEntity<>(app.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	@PutMapping("/diagnostic/{id}")
 	public ResponseEntity<Diagnostic> updateDDiagnostic(@PathVariable("id") Long id,
 			@RequestBody DiagnosticRequer DiagnosticRequ) {

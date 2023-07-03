@@ -1,6 +1,10 @@
 package com.healthHub.healthHub.model;
 
 
+
+import java.time.LocalDate;
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +23,11 @@ public class Diagnostic {
 	@Column(nullable = false)
 	private String note;
 	
+	@Column(nullable = false)
+	private Date DiagnosticDate;
+	
+	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "employeeId")
 	private Employee employee;
@@ -42,7 +51,12 @@ public class Diagnostic {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	
+	public Date getDiagnosticDate() {
+		return DiagnosticDate;
+	}
 
+	
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -53,6 +67,10 @@ public class Diagnostic {
 
 	public Doctor getDoctor() {
 		return doctor;
+	}
+
+	public void setDiagnosticDate(Date diagnosticDate) {
+		DiagnosticDate = diagnosticDate;
 	}
 
 	public void setDoctor(Doctor doctor) {
@@ -66,6 +84,8 @@ public class Diagnostic {
 		super();
 		DiagnosticId = diagnosticId;
 		this.note = note;
+		LocalDate d=LocalDate.now();
+		this.DiagnosticDate=(Date) java.util.Calendar.getInstance().getTime();
 		this.employee = employee;
 		this.doctor = doctor;
 	}
