@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.healthHub.healthHub.classes.Mail;
-import com.healthHub.healthHub.classes.MailForgetPass;
 import com.healthHub.healthHub.service.MailSenderService;
-
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -18,24 +16,10 @@ public class MailController {
     }
     
     @PostMapping("/sendMail")
-    public String triggerMail(@RequestBody Mail m) {
+    public void triggerMail(@RequestBody Mail m) {
     	 String to = m.getTo();
          String subject = m.getSubject();
          String text = m.getBody();
         emailSenderService.sendSimpleEmail(to, subject, text);
-		return "Sending";
 	}
-    
-    //Unused because /sendemail does the same 
-	/*
-	 * @GetMapping("/forgetpassword") public String forgetpassword(@RequestBody
-	 * MailForgetPass m) { String subject = "Do you Forget Your password ?"; String
-	 * text = "you can changing just following this link www.google.com "; // Send
-	 * the email emailSenderService.sendSimpleEmail(m.getTo(), subject, text);
-	 * return "Sending"; }
-	 */
-
-
-
-
 }
