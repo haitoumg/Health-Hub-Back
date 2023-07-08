@@ -1,8 +1,12 @@
 package com.healthHub.healthHub.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.healthHub.healthHub.classes.PersoneInfos;
+import com.healthHub.healthHub.model.Employee;
+import com.healthHub.healthHub.model.Personne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +67,17 @@ public class DoctorController {
 	    List<Doctor> doctors = doctorRepository.findAll();
 	    return new ResponseEntity<>(doctors, HttpStatus.OK);
 	}
-	
+	@GetMapping("/doctorsInfos")
+	public ResponseEntity<List<PersoneInfos>> getAllDoctorsInfos() {
+		List<Doctor> doctors = doctorRepository.findAll();
+		List<PersoneInfos> personesInfos=new ArrayList<>();
+		for (int i = 0; i < doctors.size(); i++) {
+			Personne persone = doctors.get(i);
+			PersoneInfos personeInfos1=new PersoneInfos(persone.getPersonneId(), persone.getfirstName()+" "+persone.getlastName());
+			personesInfos.add(personeInfos1);
+		}
+		return new ResponseEntity<>(personesInfos, HttpStatus.OK);
+	}
 	@GetMapping("/doctor/{id}")
 	public ResponseEntity<Doctor> getDoctorById(@PathVariable("id") Long id) {
 		Optional<Doctor> doctor = doctorRepository.findById(id);

@@ -95,9 +95,7 @@ public class CalenderController {
 			Optional<Appointment> possibleAppointment=appointmentRepository.findByCalendarCalendarIdAndCancelled(calendar.getCalendarId(), false);
 			if(possibleAppointment.isPresent()){
 				Appointment appointment=possibleAppointment.get();
-
-					calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), appointment.getEmployee().getlastName(), appointment.getEmployee().getfirstName(), true);
-
+				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), appointment.getEmployee().getlastName(), appointment.getEmployee().getfirstName(), true);
 			}
 			else {
 				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), null, null, false);
