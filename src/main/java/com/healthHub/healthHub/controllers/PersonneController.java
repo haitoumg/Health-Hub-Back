@@ -57,7 +57,6 @@ public class PersonneController {
 		}
 	}
 
-	//Modification can't be done directly
 	@PutMapping("/personne/{id}")
 	public ResponseEntity<Personne> updatePersonne(@PathVariable("id") Long id, @RequestBody Personne updatedPersonne) {
 		Optional<Personne> optionalPersonne = personneRepository.findById(id);
@@ -77,7 +76,6 @@ public class PersonneController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	//Delete can't be done directly
 	@DeleteMapping("/personne/{id}")
 	public ResponseEntity<Void> deletePersonne(@PathVariable("id") Long id) {
 		Optional<Personne> optionalPersonne = personneRepository.findById(id);
