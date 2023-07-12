@@ -4,6 +4,8 @@ public class ResetPasswordRequer {
 	private String email;
 	private String newPassword;
 	private String confirmedPassword;
+	private String confirmationCode;
+
 
 	public String getEmail() {
 		return email;
@@ -33,4 +35,13 @@ public class ResetPasswordRequer {
 	public void setConfirmedPassword(String confirmedPassword) {
 		this.confirmedPassword = confirmedPassword;
 	}
+	
+	public String getConfirmationCode() {
+	    return confirmationCode;
+	}
+
+	public void setConfirmationCode(String confirmationCode) {
+	    this.confirmationCode = confirmationCode;
+	}
+
 }

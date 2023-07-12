@@ -26,7 +26,7 @@ import com.healthHub.healthHub.classes.PersonneLogin;
 import com.healthHub.healthHub.model.Personne;
 import com.healthHub.healthHub.repository.PersonneRepository;
 import com.healthHub.healthHub.classes.Mail;
-import com.healthHub.healthHub.classes.EncryptionUtils;
+import java.util.Random;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -71,26 +71,35 @@ public class LoginController {
 			return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 		}
 	}
+
 	@PostMapping("/resetpasswordrequest")
 	public ResponseEntity<?> resetPasswordRequest(@RequestBody loginRequer login) {
-
 		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
 		if (personne.isPresent()) {
+			Random random = new Random();
+			String newPwd = String.format("%06d", random.nextInt(999999));
 			Mail mail = new Mail();
 			mail.setTo(login.getEmail());
 			mail.setSubject("Password Reset");
-			String encryptedEmail = EncryptionUtils.encrypt(login.getEmail());
-			String link = "http://localhost:3000/ResetPasswordForm/" + encryptedEmail;
-			mail.setBody("To reset your password click on the link : " + link);
+			String link = "http://localhost:3000";
+			mail.setBody("You can log now using this password " + newPwd + " by following the link" + link);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<Mail> requestEntity = new HttpEntity<>(mail, headers);
 			RestTemplate restTemplate = new RestTemplate();
 			ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:9090/sendMail",
 					HttpMethod.POST, requestEntity, String.class);
-
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				return new ResponseEntity<>(personne, HttpStatus.OK);
+
+				if (personne.isPresent()) {
+					Personne existingPersonne = personne.get();
+					existingPersonne.setPassword(bcrypt.encode(newPwd));
+					Personne personneUpdated = personneRepository.save(existingPersonne);
+					return new ResponseEntity<>(personneUpdated, HttpStatus.OK);
+				} else {
+					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				}
+
 			} else {
 				String errorMessage = "Failed to send email";
 				ErrorResponse errorResponse = new ErrorResponse(errorMessage);
@@ -103,38 +112,68 @@ public class LoginController {
 		}
 
 	}
-	@PutMapping("/resetpassword")
+
+	/*
+	 * @PostMapping("/resetpasswordrequest") public ResponseEntity<?>
+	 * resetPasswordRequest(@RequestBody ResetPasswordRequer resetPasswordRequer) {
+	 * Optional<Personne> personne =
+	 * personneRepository.findByemail(resetPasswordRequer.getEmail()); if
+	 * (personne.isPresent()) { Random random = new Random(); String
+	 * confirmationCode = String.format("%06d", random.nextInt(999999));
+	 * 
+	 * Mail mail = new Mail(); mail.setTo(resetPasswordRequer.getEmail());
+	 * mail.setSubject("Password Reset"); String link =
+	 * "http://localhost:3000/ResetPasswordForm/";
+	 * mail.setBody("To reset your password, use the following confirmation code: "
+	 * + confirmationCode + "\n" + "Click on the link to proceed: " + link);
+	 * 
+	 * HttpHeaders headers = new HttpHeaders();
+	 * headers.setContentType(MediaType.APPLICATION_JSON); HttpEntity<Mail>
+	 * requestEntity = new HttpEntity<>(mail, headers); RestTemplate restTemplate =
+	 * new RestTemplate(); ResponseEntity<String> responseEntity =
+	 * restTemplate.exchange("http://localhost:9090/sendMail", HttpMethod.POST,
+	 * requestEntity, String.class);
+	 * 
+	 * if (responseEntity.getStatusCode() == HttpStatus.OK) {
+	 * resetPasswordRequer.setConfirmationCode(confirmationCode); return new
+	 * ResponseEntity<>(resetPasswordRequer, HttpStatus.OK); } else { String
+	 * errorMessage = "Failed to send email"; ErrorResponse errorResponse = new
+	 * ErrorResponse(errorMessage); return new ResponseEntity<>(errorResponse,
+	 * HttpStatus.INTERNAL_SERVER_ERROR); } } else { String errorMessage =
+	 * "Email not found"; ErrorResponse errorResponse = new
+	 * ErrorResponse(errorMessage); return new ResponseEntity<>(errorResponse,
+	 * HttpStatus.NOT_FOUND); } }
+	 */
+
+	@PutMapping("/resetpaxssword")
 	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequer changePwdRequest) {
-	    try {
-	    	String decryptedEmail = EncryptionUtils.decrypt(changePwdRequest.getEmail());
-			Optional<Personne> personne = personneRepository.findByemail(decryptedEmail);
-	            if (personne.isPresent()) {
-	                Personne existingPersonne = personne.get();
-	                existingPersonne.setPassword(bcrypt.encode(changePwdRequest.getNewPassword()));
-	                Personne personneUpdated = personneRepository.save(existingPersonne);
-	                return new ResponseEntity<>(personneUpdated, HttpStatus.OK);
-	            } else {
-	                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	            }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	}
-	
-	@GetMapping("/validateemail/{encryptedEmail}")
-	public ResponseEntity<String> validateEmail(@PathVariable("encryptedEmail") String encryptedEmail) {
-	    try {
-	        String decryptedEmail = EncryptionUtils.decrypt(encryptedEmail);
-	        Optional<Personne> personne = personneRepository.findByemail(decryptedEmail);
-	        if (personne.isPresent()) {
-	            return ResponseEntity.ok("Email is valid");
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid email");
+		try {
+			Optional<Personne> personne = personneRepository.findByemail(changePwdRequest.getEmail());
+			if (personne.isPresent()) {
+				Personne existingPersonne = personne.get();
+				existingPersonne.setPassword(bcrypt.encode(changePwdRequest.getNewPassword()));
+				Personne personneUpdated = personneRepository.save(existingPersonne);
+				return new ResponseEntity<>(personneUpdated, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
+	@GetMapping("/validateemail/{email}")
+	public ResponseEntity<String> validateEmail(@PathVariable("email") String email) {
+		try {
+			Optional<Personne> personne = personneRepository.findByemail(email);
+			if (personne.isPresent()) {
+				return ResponseEntity.ok("Email is valid");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid email");
+	}
 
 }
