@@ -25,17 +25,4 @@ public class MailController {
         emailSenderService.sendSimpleEmail(to, subject, text);
 		return "Sending";
 	}
-    
-    //Unused because /sendemail does the same 
-	/*
-	 * @GetMapping("/forgetpassword") public String forgetpassword(@RequestBody
-	 * MailForgetPass m) { String subject = "Do you Forget Your password ?"; String
-	 * text = "you can changing just following this link www.google.com "; // Send
-	 * the email emailSenderService.sendSimpleEmail(m.getTo(), subject, text);
-	 * return "Sending"; }
-	 */
-
-
-
-
 }

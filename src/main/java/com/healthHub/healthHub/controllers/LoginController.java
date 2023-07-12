@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
-
-import com.healthHub.healthHub.classes.ResetPasswordRequer;
+import com.healthHub.healthHub.classes.ChangePasswordRequer;
 import com.healthHub.healthHub.classes.ErrorResponse;
 import com.healthHub.healthHub.classes.loginRequer;
 import com.healthHub.healthHub.classes.PersonneLogin;
@@ -74,31 +73,26 @@ public class LoginController {
 		}
 	}
 
-	/*
-	 * String TimeporaryPwd = generateRandomString(); String encryTimporaryPwd
-	 * =bcrypt.encode(TimeporaryPwd);
-	 * 
-	 * Personne existingPersonne = personne.get();
-	 * existingPersonne.setPassword(encryTimporaryPwd); Personne savedPersonne
-	 * =personneRepository.save(existingPersonne);
-	 */
-
 	@PostMapping("/resetpasswordrequest")
 	public ResponseEntity<?> resetPasswordRequest(@RequestBody loginRequer login) {
 
 		Optional<Personne> personne = personneRepository.findByemail(login.getEmail());
 		if (personne.isPresent()) {
-			System.out.println("Enter to reset password controller");
-
+			//System.out.println("Enter to reset password controller");
+			String TimeporaryPwd = generateRandomString();
+			String encryTimporaryPwd = bcrypt.encode(TimeporaryPwd);
+			Personne existingPersonne = personne.get();
+			existingPersonne.setPassword(encryTimporaryPwd);
+			Personne savedPersonne = personneRepository.save(existingPersonne);
 			Mail mail = new Mail();
 			mail.setTo(login.getEmail());
 			mail.setSubject("Password Reset");
-			String link = "http://localhost:3000/ResetPasswordForm/" + login.getEmail();
-			//Mail hashed like password in the link
-			// mail.setBody("Your temporary password is: " + TimeporaryPwd+"\n We highly
-			// encourage you to change your password in the application!");
-			mail.setBody("To reset your password click on the link : " + link);
-			System.out.println(link + "is the link sent");
+			// String link = "http://localhost:3000/ResetPasswordForm/" + login.getEmail();
+			String link = "http://localhost:3000";
+			// Mail hashed like password in the link
+			mail.setBody("Your temporary password is: " + TimeporaryPwd+ " We highly encourage you to change your password in the application! To get back to the appliation, please follow this link  \n"+link);
+			// mail.setBody("To reset your password click on the link : " + link);
+			//System.out.println(link + "is the link sent");
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -108,7 +102,7 @@ public class LoginController {
 					HttpMethod.POST, requestEntity, String.class);
 
 			if (responseEntity.getStatusCode() == HttpStatus.OK) {
-				return new ResponseEntity<>(personne, HttpStatus.OK);
+				return new ResponseEntity<>(savedPersonne, HttpStatus.OK);
 			} else {
 				String errorMessage = "Failed to send email";
 				ErrorResponse errorResponse = new ErrorResponse(errorMessage);
@@ -121,21 +115,22 @@ public class LoginController {
 		}
 
 	}
-	//change password inside app
-	@PutMapping("/changepassword")
-	public ResponseEntity<?> changePassword(@RequestBody ResetPasswordRequer changePwdRequest) {
-		System.out.println("Enter to change password controller");
-		Optional<Personne> personne = personneRepository.findByemail(changePwdRequest.getEmail());
 
+	// change password inside app
+	@PutMapping("/changepassword")
+	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequer changePwdRequest) {
+		//System.out.println("Enter to change password controller");
+		Optional<Personne> personne = personneRepository.findByemail(changePwdRequest.getEmail());
+		//System.out.println("Email found is" +personne.get().getEmail()+"Name found is"+ personne.get().getlastName());
 		if (changePwdRequest.getNewPassword().equals(changePwdRequest.getConfirmedPassword())) {
 			if (personne.isPresent()
-					&& bcrypt.matches(changePwdRequest.getOldPassword(), personne.get().getPassword())) {
-				System.out.println("Old Password and password in DB are matched");
+					&& bcrypt.matches(changePwdRequest.getCurrentPassword(), personne.get().getPassword())) {
+				//System.out.println("Old Password and password in DB are matched");
 				Personne existingPersonne = personne.get();
 				existingPersonne.setPassword(bcrypt.encode(changePwdRequest.getNewPassword()));
 				Personne personneUpdated = personneRepository.save(existingPersonne);
-				System.out.println("Update password of person" + changePwdRequest.getNewPassword());
-				System.out.println("DB updated");
+				//System.out.println("Update password of person" + changePwdRequest.getNewPassword());
+				//System.out.println("DB updated");
 				return new ResponseEntity<>(personneUpdated, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -144,10 +139,9 @@ public class LoginController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
-	
+
 	@PutMapping("/resetpassword")
-	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequer changePwdRequest) {
+	public ResponseEntity<?> resetPassword(@RequestBody ChangePasswordRequer changePwdRequest) {
 		Optional<Personne> personne = personneRepository.findByemail(changePwdRequest.getEmail());
 
 		if (changePwdRequest.getNewPassword().equals(changePwdRequest.getConfirmedPassword())) {
@@ -166,7 +160,7 @@ public class LoginController {
 
 	@GetMapping("/validateemail/{email}")
 	public ResponseEntity<String> validateToken(@PathVariable("email") String email) {
-		
+
 		Optional<Personne> personne = personneRepository.findByemail(email);
 		if (personne.isPresent()) {
 			return ResponseEntity.ok("email is valid");
@@ -174,16 +168,6 @@ public class LoginController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid email");
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
  * @GetMapping("/validateemail/{email}") public ResponseEntity<String>
