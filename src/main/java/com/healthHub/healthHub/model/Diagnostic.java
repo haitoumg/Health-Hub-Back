@@ -1,10 +1,6 @@
 package com.healthHub.healthHub.model;
 
-
-
-import java.time.LocalDate;
 import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -20,11 +17,13 @@ public class Diagnostic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int DiagnosticId;
 
-	@Column(nullable = false)
-	private String note;
+	 
+	 @Column(nullable = false,columnDefinition = "TEXT")
+	 private String note;
+
 	
 	@Column(nullable = false)
-	private Date DiagnosticDate;
+	private String DiagnosticDate;
 	
 	
 
@@ -52,7 +51,7 @@ public class Diagnostic {
 		this.note = note;
 	}
 	
-	public Date getDiagnosticDate() {
+	public String getDiagnosticDate() {
 		return DiagnosticDate;
 	}
 
@@ -69,7 +68,7 @@ public class Diagnostic {
 		return doctor;
 	}
 
-	public void setDiagnosticDate(Date diagnosticDate) {
+	public void setDiagnosticDate(String diagnosticDate) {
 		DiagnosticDate = diagnosticDate;
 	}
 
@@ -84,9 +83,9 @@ public class Diagnostic {
 		super();
 		DiagnosticId = diagnosticId;
 		this.note = note;
-		LocalDate d=LocalDate.now();
-		this.DiagnosticDate=(Date) java.util.Calendar.getInstance().getTime();
+		this.DiagnosticDate=  new Date().toLocaleString();
 		this.employee = employee;
 		this.doctor = doctor;
 	}
+	
 }

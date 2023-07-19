@@ -57,7 +57,7 @@ public class DiagnosticController {
 		if (optionalD.isPresent()) {
 			app.setDoctor((optionalD.get()));
 		}
-		app.setDiagnosticDate((Date) java.util.Calendar.getInstance().getTime());
+		app.setDiagnosticDate(new Date().toLocaleString());
 		Diagnostic createdApp = diagnosticRepository.save(app);
 		return new ResponseEntity<>(createdApp, HttpStatus.CREATED);
 	}
