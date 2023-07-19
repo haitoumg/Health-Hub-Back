@@ -8,6 +8,8 @@ public class CalendarInfos {
     private Time startTime;
     private Time endTime;
     private boolean isBooked;
+
+    private boolean isBookedForLoggedInEmployee;
     private int calendarId;
 
     private String startDate;
@@ -17,9 +19,20 @@ public class CalendarInfos {
         return calendarId;
     }
 
-
+    public void setBookedForLoggedInEmployee(boolean bookedForLoggedInEmployee) {
+        isBookedForLoggedInEmployee = bookedForLoggedInEmployee;
+    }
     public void setCalendarId(int calendarId) {
         this.calendarId = calendarId;
+    }
+    public CalendarInfos(Date workingDay, Time startTime, Time endTime, String employeeLastName, String employeeFirstName,Boolean isBooked, Boolean isBookedForLoggedInEmployee) {
+        this.workingDay = workingDay;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.employeeLastName = employeeLastName;
+        this.employeeFirstName = employeeFirstName;
+        this.isBooked=isBooked;
+        this.isBookedForLoggedInEmployee=isBookedForLoggedInEmployee;
     }
     public CalendarInfos(Date workingDay, Time startTime, Time endTime, String employeeLastName, String employeeFirstName,Boolean isBooked) {
         this.workingDay = workingDay;
@@ -33,7 +46,9 @@ public class CalendarInfos {
       this.startDate=startDate;
       this.endDate=endDate;
     }
-
+    public boolean isBookedForLoggedInEmployee() {
+        return isBookedForLoggedInEmployee;
+    }
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }

@@ -122,13 +122,14 @@ public class CalenderController {
 			Optional<Appointment> possibleAppointment=appointmentRepository.findByCalendarCalendarIdAndCancelled(calendar.getCalendarId(), false);
 			if(possibleAppointment.isPresent() && possibleAppointment.get().getEmployee().getPersonneId() == personneId){
 				Appointment appointment=possibleAppointment.get();
-				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), "Reserved for you", " ", true);
+				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), "Booked for you", " ", true, true);
 
 			}else if(possibleAppointment.isPresent() && possibleAppointment.get().getEmployee().getPersonneId() != personneId){
-				continue;
+				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), null, null, true, false);
+
 			}
 			else {
-				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), null, null, false);
+				calendarInfos=new CalendarInfos(calendar.getworkingDay(), calendar.getstartTime(), calendar.getendTime(), null, null, false, false);
 
 			}
 			calendarInfos.setCalendarId(calendar.getCalendarId());
@@ -177,7 +178,7 @@ public class CalenderController {
 	    Optional<Calendar> optionalCalender = calenderRepository.findById(id);
 	    if (optionalCalender.isPresent()) {
 			Calendar calendar=optionalCalender.get();
-			Optional<Appointment> optionalAppointment=appointmentRepository.findByCalendarCalendarId(calendar.getCalendarId());
+			Optional<Appointment> optionalAppointment=appointmentRepository.findByCalendarCalendarIdAndCancelled(calendar.getCalendarId(), false);
 			if(optionalAppointment.isPresent()){
 				Appointment appointment=optionalAppointment.get();
 				appointment.setCancelled(true);
